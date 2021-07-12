@@ -1,5 +1,6 @@
 using API.Context;
 using API.Repository.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,9 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace API
@@ -22,7 +25,7 @@ namespace API
         {
             Configuration = configuration;
         }
-
+        public List<string> dataRole = new List<string> { "Admin", "Manager","Employee" };
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -30,8 +33,27 @@ namespace API
         {
             services.AddControllers();
 
+            //JWT
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = true;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    RoleClaimType = "Role",
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    //ValidAudience = Configuration["Jwt:Audience"],
+                    ValidAudiences = dataRole,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
+
             services.AddDbContext<MyContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("APIContext")));
 
+
+            //SCOPE REPOSITORY
             services.AddScoped<EmployeeRepository>();
             services.AddScoped<DepartmentRepository>();
             services.AddScoped<LeaveRepository>();
@@ -51,6 +73,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
