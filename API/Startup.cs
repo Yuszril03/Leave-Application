@@ -1,4 +1,5 @@
 using API.Context;
+using API.Repository.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,13 @@ namespace API
             services.AddControllers();
 
             services.AddDbContext<MyContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("APIContext")));
+
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<DepartmentRepository>();
+            services.AddScoped<LeaveRepository>();
+            services.AddScoped<AccountRepository>();
+            services.AddScoped<LeaveEmployeeRepository>();
+            services.AddScoped<RoleRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

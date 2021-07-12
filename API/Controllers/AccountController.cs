@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using API.Base;
+using API.Models;
+using API.Repository.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +12,12 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseController<Account, AccountRepository, string>
     {
+        private readonly AccountRepository accountRepository;
+        public AccountController(AccountRepository repository) : base(repository)
+        {
+            this.accountRepository = repository;
+        }
     }
 }
