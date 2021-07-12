@@ -14,7 +14,7 @@ namespace API.Models
         public int LeaveQuota { get; set; }
         public LeaveStatus LeaveStatus { get; set; }
         [JsonIgnore]
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
         [JsonIgnore]
         public virtual ICollection<Role> Roles { get; set; }
         [JsonIgnore]
