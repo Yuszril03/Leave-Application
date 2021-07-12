@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Repository
 {
@@ -31,15 +30,12 @@ namespace API.Repository
             }
             catch (ArgumentNullException ex)
             {
-
                 return 0;
             }
         }
 
         public IEnumerable<Entity> Get()
         {
-
-
             return entities.ToList();
         }
 
@@ -59,7 +55,6 @@ namespace API.Repository
         public IEnumerable<Entity> GetJoinUD()
         {
             return entities.ToList();
-
         }
 
         public int Insert(Entity e)
@@ -72,7 +67,6 @@ namespace API.Repository
             }
             catch (DbUpdateException)
             {
-
                 return 0;
             }
         }
@@ -95,7 +89,6 @@ namespace API.Repository
             }
             catch (ArgumentNullException ex)
             {
-
                 return 0;
             }
             catch (DbUpdateConcurrencyException)
