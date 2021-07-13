@@ -50,6 +50,7 @@
 }
 
 body {
+  overflow-y:hidden;
   margin: 0;
   font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem;
@@ -10884,7 +10885,7 @@ header.masthead {
     position: relative;
     width: 100%;
     height: auto;
-    min-height: 35rem;
+    max-height:min-content;
     padding: 15rem 0;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../img/bg-masthead.jpg");
     background-position: center;
