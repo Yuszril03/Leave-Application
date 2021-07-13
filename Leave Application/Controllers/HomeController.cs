@@ -1,4 +1,8 @@
-﻿using Leave_Application.Models;
+﻿using API.ViewModel;
+using Leave_Application.Models;
+using Leave_Application.Repository.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,21 +15,34 @@ namespace Leave_Application.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly HomeRepository homeRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(HomeRepository homeRepository)
         {
-            _logger = logger;
+            this.homeRepository = homeRepository;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpPost("Home/Auth")]
+        public async Task<IActionResult> Auth(LoginVM loginVM)
+        {
+            var jwtToken = await homeRepository.LoginData(loginVM);
+            if (jwtToken == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            HttpContext.Session.SetString("JWToken", jwtToken.Token);
+            HttpContext.Session.SetString("Name", homeRepository.JwtName(jwtToken.Token));
+            return RedirectToAction("Privacy", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
