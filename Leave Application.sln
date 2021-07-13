@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{201ECDC6-DBA4-4CC2-9467-60F33A56C403}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{201ECDC6-DBA4-4CC2-9467-60F33A56C403}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leave Application", "Leave Application\Leave Application.csproj", "{9B35D652-8DC0-4B8B-9AD8-2C737B5396B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{201ECDC6-DBA4-4CC2-9467-60F33A56C403}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{201ECDC6-DBA4-4CC2-9467-60F33A56C403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{201ECDC6-DBA4-4CC2-9467-60F33A56C403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B35D652-8DC0-4B8B-9AD8-2C737B5396B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B35D652-8DC0-4B8B-9AD8-2C737B5396B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B35D652-8DC0-4B8B-9AD8-2C737B5396B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B35D652-8DC0-4B8B-9AD8-2C737B5396B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
