@@ -25,7 +25,7 @@ namespace API
         {
             Configuration = configuration;
         }
-        public List<string> dataRole = new List<string> { "Admin", "Manager","Employee" };
+        public List<string> dataRole = new List<string> { "Admin", "Manajer", "Karyawan" };
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.

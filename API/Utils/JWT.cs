@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -17,19 +18,22 @@ namespace API.Utils
         {
             _config = config;
         }
-        public string GetJWT(string email, string role, string name)
+        public string GetJWT(string email, List<string> role, string name)
         {
-            var claims = new[] {
-
-                    new Claim("Name", name),
-                    new Claim("Email", email),
-                    new Claim("Role", role),
-                   };
+           
+            var claims = new List<Claim>();
+            string roles = string.Join(",", role);
+            claims.Add(new Claim("Name",name));
+            claims.Add(new Claim("Email", email));
+            foreach (var item in role)
+            {
+                claims.Add(new Claim("Role", item));
+            }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
 
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"], role, claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"], roles, claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

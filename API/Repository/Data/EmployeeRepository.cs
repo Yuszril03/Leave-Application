@@ -3,6 +3,7 @@ using API.Models;
 using API.Utils;
 using API.ViewModel;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -67,6 +68,31 @@ namespace API.Repository.Data
             }
         }
 
+        public IEnumerable GetEmployees()
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     join ar in myContext.AccountRoles on ac.NIK equals ar.NIK
+                     join r in myContext.Roles on ar.RoleId equals r.RoleId
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     select new
+                     {
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         Gender = (em.Gender==0)?"Pria":"Wanita",
+                         em.PhoneNumber,
+                         r.RoleName,
+                         em.ManagerId,
+                         dep.DepartmentName,
+                         ac.LeaveQuota,
+                         ac.LeaveStatus
+                     }                   
+                     );
+            return q.ToList();
+        }
+
         public JWTVM Auth(LoginVM loginVM, IConfiguration configuration)
         {
             JWT jWT = new JWT(configuration);
@@ -77,12 +103,18 @@ namespace API.Repository.Data
                 if (validate != null)
                 {
                     var cekPassword = myContext.Accounts.FirstOrDefault(e => e.NIK == validate.NIK);
-                    var accountRole = myContext.AccountRoles.FirstOrDefault(e => e.NIK == validate.NIK);
+                    
                     if (Hashing.Validate(loginVM.Password, cekPassword.Password) == true)
                     {
                         //Benar
-                        var role = myContext.Roles.FirstOrDefault(r => r.RoleId == accountRole.RoleId);
-                        dataJWT.Token = jWT.GetJWT(validate.Email, role.RoleName, validate.FirstName);
+                        List<string> setRole = new List<string>();
+                        var role = (from ar in myContext.AccountRoles join r in myContext.Roles on ar.RoleId equals r.RoleId  where ar.NIK == validate.NIK select new { r.RoleName }).ToList();
+                        foreach (var item in role)
+                        {
+                            setRole.Add(item.RoleName);
+                        }
+
+                        dataJWT.Token = jWT.GetJWT(validate.Email, setRole, validate.FirstName);
                         dataJWT.Message = "Login Sukses";
                         dataJWT.Status = HttpStatusCode.OK;
                     }

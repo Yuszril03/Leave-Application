@@ -2,6 +2,7 @@
 using API.Models;
 using API.Repository.Data;
 using API.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Net;
@@ -52,6 +53,17 @@ namespace API.Controllers
                 var get = BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "NIK sudah digunakan" });
                 return get;
             }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetEmployees")]
+        public ActionResult GetEmployees()
+        {
+            var get = employeeRepository.GetEmployees();
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
         }
     }
 }
