@@ -4,6 +4,7 @@ using API.Repository.Data;
 using API.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace API.Controllers
 {
@@ -19,7 +20,8 @@ namespace API.Controllers
             this.employeeRepository = employeeRepository;
             _config = configuration;
         }
-        [HttpPost("/API/Employee/Auth")]
+
+        [HttpPost("Auth")]
         public ActionResult Auth(LoginVM loginVM)
         {
             var result = employeeRepository.Auth(loginVM, _config);
@@ -29,6 +31,27 @@ namespace API.Controllers
             }
             return Ok(result);
 
+        }
+
+        [HttpPost("Register")]
+        public ActionResult Register(RegisterVM registerVM)
+        {
+            var result = employeeRepository.Register(registerVM);
+            if (result > 1)
+            {
+                var get = Ok(new { status = HttpStatusCode.OK, result = result, message = "Berhasil di Registrasi" });
+                return get;
+            }
+            else if (result == 1)
+            {
+                var get = BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Email sudah digunakan" });
+                return get;
+            }
+            else
+            {
+                var get = BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "NIK sudah digunakan" });
+                return get;
+            }
         }
     }
 }

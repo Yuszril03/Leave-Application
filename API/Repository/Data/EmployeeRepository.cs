@@ -3,6 +3,7 @@ using API.Models;
 using API.Utils;
 using API.ViewModel;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -17,11 +18,59 @@ namespace API.Repository.Data
             this.myContext = myContext;
         }
 
+        public int Register(RegisterVM registerVM)
+        {
+            var checkNIK = myContext.Employees.Find(registerVM.NIK);
+            if (checkNIK == null)
+            {
+                var checkEmail = myContext.Employees.Where(e => e.Email == registerVM.Email).FirstOrDefault<Employee>();
+                if (checkEmail == null)
+                {
+                    //Employee
+                    Employee employee = new Employee();
+                    employee.NIK = registerVM.NIK;
+                    employee.FirstName = registerVM.FirstName;
+                    employee.LastName = registerVM.LastName;
+                    employee.Gender = registerVM.Gender;
+                    employee.Email = registerVM.Email;
+                    employee.PhoneNumber = registerVM.PhoneNumber;
+                    employee.ManagerId = registerVM.ManagerId;
+                    employee.DepartmentId = registerVM.DepartmentId;
+                    myContext.Employees.Add(employee);
+                    myContext.SaveChanges();
+
+                    //Account
+                    string hash = Hashing.Hash(registerVM.Password);
+                    var role = myContext.Roles.Single(r => r.RoleId == 2);
+                    Account account = new Account()
+                    {
+                        NIK = employee.NIK,
+                        Password = hash,
+                        LeaveQuota = registerVM.LeaveQuota,
+                        LeaveStatus = (LeaveStatus)registerVM.LeaveStatus,
+                        Roles = new List<Role>()
+                    };
+                    account.Roles.Add(role);
+                    myContext.Accounts.Add(account);
+                    myContext.SaveChanges();
+
+                    return 3;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public JWTVM Auth(LoginVM loginVM, IConfiguration configuration)
         {
             JWT jWT = new JWT(configuration);
             JWTVM dataJWT = new JWTVM();
-            int hasil = 0;
             if (loginVM.NIK != "" && loginVM.Password != "")
             {
                 var cekEmployeeEmail = myContext.Employees.SingleOrDefault(e => e.Email == loginVM.NIK);
