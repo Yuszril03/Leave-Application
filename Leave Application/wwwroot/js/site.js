@@ -1,4 +1,27 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿window.addEventListener('load', () => {
+    let forms = document.getElementsByClassName('needs-validation');
+    for (let form of forms) {
+        form.addEventListener('submit', (evt) => {
+            if (!form.checkValidity()) {
+                evt.preventDefault();
+                evt.stopPropagation();
+            } else {
+                evt.preventDefault();
+                Auth();
+            }
+            form.classList.add('was-validated');
+        });
+    }
+});
 
-// Write your JavaScript code.
+function Auth() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Success to Login.'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $('#loginModal').modal('hide');
+        }
+    });
+}
