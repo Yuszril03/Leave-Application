@@ -58,7 +58,7 @@ namespace API.Base
             var insert = repository.Insert(entity);
             if (insert > 0)
             {
-                return Ok(insert);
+                return Ok(new { status = HttpStatusCode.OK, result = insert, message = "Berhasil tersimpan" });
             }
             else
             {
@@ -73,11 +73,11 @@ namespace API.Base
             var delete = repository.Delete(key);
             if (delete > 0)
             {
-                return Ok(delete);
+                return Ok(new { status = HttpStatusCode.OK, result = delete, message = "Berhasil terhapus" });
             }
             else
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = delete, message = "Gagal Delete" });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = delete, message = "Gagal terhapus" });
             }
         }
         [HttpPut("{key}")]
@@ -87,7 +87,7 @@ namespace API.Base
             var update = repository.Update(entity, key);
             if (update > 0)
             {
-                return Ok(update);
+                return Ok(new { status = HttpStatusCode.OK, result = update, message = "Berhasil diperbarui" });
             }
             else
             {

@@ -19,11 +19,16 @@ namespace API.Controllers
             this.employeeRepository = employeeRepository;
             _config = configuration;
         }
-
+        [HttpPost("/API/Employee/Auth")]
         public ActionResult Auth(LoginVM loginVM)
         {
             var result = employeeRepository.Auth(loginVM, _config);
+            if (result.Token == null)
+            {
+                return BadRequest(result);
+            }
             return Ok(result);
+
         }
     }
 }
