@@ -7,7 +7,7 @@ namespace API.ViewModel
 {
     public class LoginVM
     {
-        public string NIK { get; set; }
+        public string ValidateId { get; set; }
         public string Password { get; set; }
     }
 }

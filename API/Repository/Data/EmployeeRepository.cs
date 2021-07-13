@@ -71,39 +71,18 @@ namespace API.Repository.Data
         {
             JWT jWT = new JWT(configuration);
             JWTVM dataJWT = new JWTVM();
-            if (loginVM.NIK != "" && loginVM.Password != "")
+            if (loginVM.ValidateId != "" && loginVM.Password != "")
             {
-                var cekEmployeeEmail = myContext.Employees.SingleOrDefault(e => e.Email == loginVM.NIK);
-                var cekEmployeeNIK = myContext.Employees.SingleOrDefault(e => e.NIK == loginVM.NIK);
-                if (cekEmployeeEmail != null)
+                var validate = myContext.Employees.Where(e => e.Email == loginVM.ValidateId || e.NIK == loginVM.ValidateId).FirstOrDefault<Employee>();
+                if (validate != null)
                 {
-                    var cekPassword = myContext.Accounts.SingleOrDefault(e => e.NIK == cekEmployeeEmail.NIK);
-                    var accountRole = myContext.AccountRoles.SingleOrDefault(e => e.NIK == cekEmployeeEmail.NIK);
+                    var cekPassword = myContext.Accounts.FirstOrDefault(e => e.NIK == validate.NIK);
+                    var accountRole = myContext.AccountRoles.FirstOrDefault(e => e.NIK == validate.NIK);
                     if (Hashing.Validate(loginVM.Password, cekPassword.Password) == true)
                     {
                         //Benar
-                        var role = myContext.Roles.SingleOrDefault(r => r.RoleId == accountRole.RoleId);
-                        dataJWT.Token = jWT.GetJWT(cekEmployeeEmail.Email, role.RoleName, cekEmployeeEmail.FirstName);
-                        dataJWT.Message = "Login Sukses";
-                        dataJWT.Status = HttpStatusCode.OK;
-                    }
-                    else
-                    {
-                        //Password Salah
-                        dataJWT.Token = null;
-                        dataJWT.Message = "Password Salah";
-                        dataJWT.Status = HttpStatusCode.BadRequest;
-                    }
-                }
-                else if (cekEmployeeNIK != null)
-                {
-                    var cekPassword = myContext.Accounts.SingleOrDefault(e => e.NIK == loginVM.NIK);
-                    var accountRole = myContext.AccountRoles.SingleOrDefault(e => e.NIK == cekEmployeeNIK.NIK);
-                    if (Hashing.Validate(loginVM.Password, cekPassword.Password) == true)
-                    {
-                        //Benar
-                        var role = myContext.Roles.SingleOrDefault(r => r.RoleId == accountRole.RoleId);
-                        dataJWT.Token = jWT.GetJWT(cekEmployeeNIK.NIK, role.RoleName, cekEmployeeNIK.FirstName);
+                        var role = myContext.Roles.FirstOrDefault(r => r.RoleId == accountRole.RoleId);
+                        dataJWT.Token = jWT.GetJWT(validate.Email, role.RoleName, validate.FirstName);
                         dataJWT.Message = "Login Sukses";
                         dataJWT.Status = HttpStatusCode.OK;
                     }
@@ -123,23 +102,23 @@ namespace API.Repository.Data
                     dataJWT.Status = HttpStatusCode.BadRequest;
                 }
             }
-            else if (loginVM.NIK == "" && loginVM.Password != "")
+            else if (loginVM.ValidateId == "" && loginVM.Password != "")
             {
                 // Jika nik/email null
                 dataJWT.Token = null;
                 dataJWT.Message = "NIK atau Email Kosong";
                 dataJWT.Status = HttpStatusCode.BadRequest;
             }
-            else if (loginVM.NIK != "" && loginVM.Password == "")
+            else if (loginVM.ValidateId != "" && loginVM.Password == "")
             {
-                 ///Jika password null
+                ///Jika password null
                 dataJWT.Token = null;
                 dataJWT.Message = "Password Kosong";
                 dataJWT.Status = HttpStatusCode.BadRequest;
             }
             else
             {
-               // kosong semua
+                // kosong semua
                 dataJWT.Token = null;
                 dataJWT.Message = "NIK dan Password Kosong";
                 dataJWT.Status = HttpStatusCode.BadRequest;
