@@ -54,7 +54,7 @@ namespace API.Controllers
                 return get;
             }
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Employee")]
         [HttpGet("GetEmployees")]
         public ActionResult GetEmployees()
         {

@@ -25,7 +25,7 @@ namespace API
         {
             Configuration = configuration;
         }
-        public List<string> dataRole = new List<string> { "Admin", "Manajer", "Karyawan" };
+        
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -36,15 +36,13 @@ namespace API
             //JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = true;
+                options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    RoleClaimType = "Role",
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    //ValidAudience = Configuration["Jwt:Audience"],
-                    ValidAudiences = dataRole,
+                    ValidAudience = Configuration["Jwt:Audience"],
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };

@@ -42,7 +42,7 @@ namespace API.Repository.Data
 
                     //Account
                     string hash = Hashing.Hash(registerVM.Password);
-                    var role = myContext.Roles.Single(r => r.RoleId == 2);
+                    var role = myContext.Roles.Single(r => r.RoleId == 4);
                     Account account = new Account()
                     {
                         NIK = employee.NIK,
@@ -72,8 +72,6 @@ namespace API.Repository.Data
         {
             var q = (from em in myContext.Employees
                      join ac in myContext.Accounts on em.NIK equals ac.NIK
-                     join ar in myContext.AccountRoles on ac.NIK equals ar.NIK
-                     join r in myContext.Roles on ar.RoleId equals r.RoleId
                      join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
                      select new
                      {
@@ -83,7 +81,6 @@ namespace API.Repository.Data
                          em.Email,
                          Gender = (em.Gender==0)?"Pria":"Wanita",
                          em.PhoneNumber,
-                         r.RoleName,
                          em.ManagerId,
                          dep.DepartmentName,
                          ac.LeaveQuota,

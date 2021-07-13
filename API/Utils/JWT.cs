@@ -27,13 +27,13 @@ namespace API.Utils
             claims.Add(new Claim("Email", email));
             foreach (var item in role)
             {
-                claims.Add(new Claim("Role", item));
+                claims.Add(new Claim("role", item));
             }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
 
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"], roles, claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
