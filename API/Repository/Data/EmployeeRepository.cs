@@ -19,8 +19,9 @@ namespace API.Repository.Data
             this.myContext = myContext;
         }
 
-        public int Register(RegisterVM registerVM)
+        public ResponseVM Register(RegisterVM registerVM)
         {
+            ResponseVM response = new ResponseVM();
             var checkNIK = myContext.Employees.Find(registerVM.NIK);
             if (checkNIK == null)
             {
@@ -55,17 +56,24 @@ namespace API.Repository.Data
                     myContext.Accounts.Add(account);
                     myContext.SaveChanges();
 
-                    return 3;
+                    response.Message = "Sukses menambah data karyawan";
+                    response.Result = 2;
+                    response.Status = HttpStatusCode.OK;
                 }
                 else
                 {
-                    return 1;
+                    response.Message = "Email sudah digunakan";
+                    response.Result = 1;
+                    response.Status = HttpStatusCode.BadRequest;
                 }
             }
             else
             {
-                return 0;
+                response.Message = "NIK sudah digunakan";
+                response.Result = 1;
+                response.Status = HttpStatusCode.BadRequest;
             }
+            return response;
         }
 
         public IEnumerable GetEmployees()
@@ -110,8 +118,9 @@ namespace API.Repository.Data
                         {
                             setRole.Add(item.RoleName);
                         }
+                        var name = validate.FirstName + " " + validate.LastName;
 
-                        dataJWT.Token = jWT.GetJWT(validate.Email, setRole, validate.FirstName);
+                        dataJWT.Token = jWT.GetJWT(validate.Email, setRole, name);
                         dataJWT.Message = "Login Sukses";
                         dataJWT.Status = HttpStatusCode.OK;
                     }

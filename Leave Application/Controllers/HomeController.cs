@@ -42,7 +42,13 @@ namespace Leave_Application.Controllers
             }
             HttpContext.Session.SetString("JWToken", jwtToken.Token);
             HttpContext.Session.SetString("Name", homeRepository.JwtName(jwtToken.Token));
-            return RedirectToAction("Privacy", "Home");
+            return Json(jwtToken);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
