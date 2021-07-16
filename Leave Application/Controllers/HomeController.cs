@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Leave_Application.Controllers
@@ -22,6 +23,15 @@ namespace Leave_Application.Controllers
             this.homeRepository = homeRepository;
         }
 
+        [HttpPut("Home/Put")]
+        public JsonResult Put(Coba entity)
+        {
+            var result = homeRepository.Put(entity);
+        
+            HttpContext.Session.SetString("Name", entity.FirstName);
+            return Json(result);
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -31,7 +41,12 @@ namespace Leave_Application.Controllers
         {
             return View();
         }
-
+        [HttpGet("Home/GetRegistrasiView")]
+        public async Task<JsonResult> GetRegistrasiView()
+        {
+            var result = await homeRepository.GetRegistrasiView();
+            return Json(result);
+        }
         [HttpPost("Home/Auth")]
         public async Task<IActionResult> Auth(LoginVM loginVM)
         {
@@ -42,9 +57,56 @@ namespace Leave_Application.Controllers
             }
             HttpContext.Session.SetString("JWToken", jwtToken.Token);
             HttpContext.Session.SetString("Name", homeRepository.JwtName(jwtToken.Token));
-            return RedirectToAction("Privacy", "Home");
-        }
+            HttpContext.Session.SetString("NIK", homeRepository.JwtNIK(jwtToken.Token));
+            var role = homeRepository.JwtRole(jwtToken.Token);
+            string trueRole = "";
+            int a = 0; int b = 0;
+            int c = 0;
+            foreach (var item in role)
+            {
+                if(item.Value == "Manager")
+                {
+                    a = 1;
+                }else if (item.Value == "Admin")
+                {
+                    trueRole = "Admin";
+                    c = 1;
+                  
+                }
+                else if (item.Value == "Employee")
+                {
+                    b = 1;
+                }
+            }
+            if (c != 1)
+            {
+                if (a == 1 && b == 0)
+                {
+                    trueRole = "Manajer";
+                    HttpContext.Session.SetString("Role", trueRole);
+                }
+                else if (a == 1 && b == 1)
+                {
+                    trueRole = "Manajer";
+                    HttpContext.Session.SetString("Role", trueRole);
+                }
 
+                else if (a == 0 && b == 1)
+                {
+                    trueRole = "Karyawan";
+                    HttpContext.Session.SetString("Role", trueRole);
+                }
+            }
+                    return RedirectToAction("Beranda", "Employee");
+
+
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString("JWToken", "");
+            HttpContext.Session.SetString("Name", "");
+            return RedirectToAction("Index", "Home");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

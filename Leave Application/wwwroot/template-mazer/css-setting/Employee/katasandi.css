@@ -1,0 +1,12 @@
+﻿
+@media only screen and (max-width: 360px), (min-device-width: 740px) and (max-device-width: 1024px) {
+    .hide-small {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) {
+   
+}
+
+

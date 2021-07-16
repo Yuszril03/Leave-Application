@@ -80,8 +80,8 @@ namespace API.Base
                 return BadRequest(new { status = HttpStatusCode.BadRequest, result = delete, message = "Gagal terhapus" });
             }
         }
-        [HttpPut("{key}")]
-        public ActionResult Update(Entity entity, Key key)
+        [HttpPut]
+        public ActionResult Update(Key key, Entity entity)
         {
 
             var update = repository.Update(entity, key);

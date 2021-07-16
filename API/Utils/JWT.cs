@@ -18,13 +18,13 @@ namespace API.Utils
         {
             _config = config;
         }
-        public string GetJWT(string email, List<string> role, string name)
+        public string GetJWT(string nik, List<string> role, string name)
         {
            
             var claims = new List<Claim>();
             string roles = string.Join(",", role);
             claims.Add(new Claim("Name",name));
-            claims.Add(new Claim("Email", email));
+            claims.Add(new Claim("NIK", nik));
             foreach (var item in role)
             {
                 claims.Add(new Claim("role", item));

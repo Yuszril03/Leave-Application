@@ -42,7 +42,7 @@ namespace API.Repository.Data
 
                     //Account
                     string hash = Hashing.Hash(registerVM.Password);
-                    var role = myContext.Roles.Single(r => r.RoleId == 4);
+                    var role = myContext.Roles.Single(r => r.RoleName == "Employee");
                     Account account = new Account()
                     {
                         NIK = employee.NIK,
@@ -89,6 +89,28 @@ namespace API.Repository.Data
                      );
             return q.ToList();
         }
+        public IQueryable GetEmployees(string nik)
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     where em.Email==nik || em.NIK==nik
+                     select new
+                     {
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         Gender = (em.Gender == 0) ? "Pria" : "Wanita",
+                         em.PhoneNumber,
+                         em.ManagerId,
+                         dep.DepartmentName,
+                         ac.LeaveQuota,
+                         ac.LeaveStatus
+                     }
+                     );
+            return q;
+        }
 
         public JWTVM Auth(LoginVM loginVM, IConfiguration configuration)
         {
@@ -111,7 +133,7 @@ namespace API.Repository.Data
                             setRole.Add(item.RoleName);
                         }
 
-                        dataJWT.Token = jWT.GetJWT(validate.Email, setRole, validate.FirstName);
+                        dataJWT.Token = jWT.GetJWT(validate.NIK, setRole, validate.FirstName);
                         dataJWT.Message = "Login Sukses";
                         dataJWT.Status = HttpStatusCode.OK;
                     }

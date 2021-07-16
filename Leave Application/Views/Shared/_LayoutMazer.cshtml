@@ -1,0 +1,198 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @ViewData["Aplikasi"]</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    @*<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">*@
+    <link rel="stylesheet" href="/template-mazer/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/template-mazer/assets/font/setFont.css">
+
+    <link rel="stylesheet" href="/template-mazer/assets/vendors/iconly/bold.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+    @*<link rel="stylesheet" href="/template-mazer/assets/vendors/simple-datatables/style.css">*@
+
+    <link rel="stylesheet" href="/template-mazer/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="/template-mazer/assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/template-mazer/assets/css/app.css">
+    <link rel="stylesheet" href="/template-mazer/css-setting/Employee/Beranda.css">
+    <link rel="stylesheet" href="/template-mazer/css-setting/Employee/normal.css">
+    <link rel="stylesheet" href="/template-mazer/css-setting/Employee/profil.css">
+    <link rel="stylesheet" href="/template-mazer/css-setting/Employee/katasandi.css">
+    <link rel="shortcut icon" href="/template-mazer/assets/images/favicon.svg" type="image/x-icon">
+    @*DatePICKER*@
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+<body style="font-family: 'Nunito';">
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="logo">
+                            <a href="index.html"><img src="/template-mazer/assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-title">Menu</li>
+                        <li class="sidebar-item @(ViewData["type"].ToString() == "Beranda" ? "active" : "")">
+                            <a href="/Employee" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Beranda</span>
+                            </a>
+                        </li>
+                        @{ if (@Context.Session.GetString("Role") == "Manajer")
+                            {
+                                <li class="sidebar-item  has-sub @(ViewData["type"].ToString() == "Data" ? "active" : "")">
+                                    <a href="#" class='sidebar-link'>
+                                        <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                        <span>Data Cuti</span>
+                                    </a>
+                                    <ul class="submenu @(ViewData["type"].ToString() == "Data" ? "active" : "")">
+                                        <li class="submenu-item ">
+                                            <a href="/Employee/DataCuti">Karyawan Cuti</a>
+                                        </li>
+                                        <li class="submenu-item ">
+                                            <a href="/Employee/TanggapanCuti">Tanggapan Cuti</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            } }
+
+                        <li class="sidebar-item  has-sub @(ViewData["type"].ToString() == "Cuti" ? "active" : "")">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-calendar3"></i>
+                                <span>Pengajuan Cuti</span>
+                            </a>
+                            <ul class="submenu @(ViewData["type"].ToString() == "Cuti" ? "active" : "")">
+                                <li class="submenu-item ">
+                                    <a href="/Employee/CutiNormal">Cuti Normal</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="/Employee/CutiSpesial">Cuti Spesial</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main" class="layout-navbar">
+            <header class="mb-3">
+                <nav class="navbar navbar-expand navbar-light ">
+                    <div class="container-fluid">
+                        <a href="#" class="burger-btn d-block">
+                            <i class="bi bi-justify fs-3"></i>
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-600" id="namaAtas">@Context.Session.GetString("Name")</h6>
+                                            <p class="mb-0 text-sm text-gray-600">@Context.Session.GetString("Role")</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar bg-warning avatar-md">
+                                                @{ 
+                                                    string a = @Context.Session.GetString("Name");
+                                                    string awal = a.Substring(0, 1);
+                                                }
+                                                <span class="avatar-content">@awal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <h6 class="dropdown-header">Halo, @Context.Session.GetString("Name")!</h6>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/Employee/Profil">
+                                            <i class="icon-mid bi bi-person me-2"></i>
+                                            Profil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/Employee/UbahKataSandi">
+                                            <i class="icon-mid bi bi-key me-2"></i>
+                                            Edit Kata Sandi
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/Home/Logout">
+                                            <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div id="main-content">
+                @RenderBody()
+
+                <footer>
+                    <div class="footer clearfix mb-0 text-muted">
+                        <div class="float-start">
+                            <p>2021 &copy; Leave Application</p>
+                        </div>
+                        <div class="float-end">
+                            <p>
+                                Dibuat oleh <span class="text-danger"><i class="bi bi-pencil"></i></span> <a href="http://ahmadsaugi.com">Taufan</a> & <a href="http://ahmadsaugi.com">Yuszril</a>
+                            </p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="/template-mazer/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/template-mazer/assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/template-mazer/assets/vendors/apexcharts/apexcharts.js"></script>
+    <script src="/template-mazer/assets/js/pages/dashboard.js"></script>
+
+    <script src="/template-mazer/assets/js/main.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+
+    @*<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>*@
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    @*<script src="/template-mazer/assets/vendors/simple-datatables/simple-datatables.js"></script>*@
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

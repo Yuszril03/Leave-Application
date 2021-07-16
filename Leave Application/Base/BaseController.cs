@@ -43,9 +43,9 @@ namespace Leave_Application.Base
         }
 
         [HttpPut]
-        public JsonResult Put(TId id, TEntity entity)
+        public JsonResult Put(TEntity entity)
         {
-            var result = repository.Put(id, entity);
+            var result = repository.Put(entity);
             return Json(result);
         }
 

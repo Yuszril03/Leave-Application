@@ -65,5 +65,16 @@ namespace API.Controllers
             }
             return BadRequest(get);
         }
+        [Authorize(Roles = "Admin, Employee")]
+        [HttpGet("GetEmployees/{nik}")]
+        public ActionResult GetEmployees(string nik)
+        {
+            var get = employeeRepository.GetEmployees(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
     }
 }

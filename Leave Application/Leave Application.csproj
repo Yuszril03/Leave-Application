@@ -13,4 +13,8 @@
     <ProjectReference Include="..\API\API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Data\" />
+  </ItemGroup>
+
 </Project>

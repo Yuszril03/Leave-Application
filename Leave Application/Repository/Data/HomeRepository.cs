@@ -7,8 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,6 +54,41 @@ namespace Leave_Application.Repository.Data
             JwtSecurityToken result = tokenHandler.ReadJwtToken(token);
 
             return result.Claims.FirstOrDefault(claim => claim.Type.Equals("Name")).Value;
+        }
+        public HttpStatusCode Put(Coba entity)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync(request, content).Result;
+            if (result.IsSuccessStatusCode)
+            {
+
+            }
+            return result.StatusCode;
+        }
+        public string JwtNIK(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken result = tokenHandler.ReadJwtToken(token);
+
+            return result.Claims.FirstOrDefault(claim => claim.Type.Equals("NIK")).Value;
+        }
+        public List<Claim> JwtRole(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken result = tokenHandler.ReadJwtToken(token);
+
+            return result.Claims.Where(claim => claim.Type.Equals("role")).ToList();
+        }
+        public async Task<List<RegisterVM>> GetRegistrasiView()
+        {
+            List<RegisterVM> entities = new List<RegisterVM>();
+
+            using (var response = await httpClient.GetAsync(request + "GetEmployees/"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+            }
+            return entities;
         }
     }
 }
