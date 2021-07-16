@@ -57,6 +57,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
+  overflow: hidden;
   background-color: #fff;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -10882,26 +10883,22 @@ html {
   letter-spacing: 0.1rem;
 }
 header.masthead {
-    position: relative;
-    width: 100%;
-    height: auto;
-    max-height:min-content;
-    padding: 15rem 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../img/bg-masthead.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-size: cover;
-}
-header.masthead .masthead-content {
-  z-index: 1;
   position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 35rem;
+  padding: 15rem 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../img/bg-masthead.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
 }
 header.masthead .masthead-content .masthead-heading {
   font-size: 4rem;
 }
 header.masthead .masthead-content .masthead-subheading {
-  font-size: 2rem;
+  font-size: 1rem;
 }
 header.masthead .bg-circle {
   z-index: 0;
@@ -10943,6 +10940,6 @@ header.masthead .bg-circle-4 {
     font-size: 6rem;
   }
   header.masthead .masthead-content .masthead-subheading {
-    font-size: 4rem;
+    font-size: 3rem;
   }
 }

@@ -1,44 +1,53 @@
-﻿window.addEventListener('load', () => {
+$(window).on('load', function () {
+    $('.loader').hide();
+});
+
+window.addEventListener('load', () => {
     let forms = document.getElementsByClassName('needs-validation');
     for (let form of forms) {
         form.addEventListener('submit', (evt) => {
             if (!form.checkValidity()) {
                 evt.preventDefault();
                 evt.stopPropagation();
-            } 
+            }
+            else {
+                evt.preventDefault();
+                Login();
+            }
             form.classList.add('was-validated');
         });
     }
 });
 
-function nik(id) {
-    id.value = formatAngka(id.value, "");
+function Login() {
+    $(document).ready(function () {
+        let validate = $('#validate').val().trim();
+        let password = $('#password').val().trim();
+
+        $.ajax({
+            url: '/Home/Auth',
+            type: 'post',
+            data: { ValidateId: validate, Password: password },
+            beforeSend: function () {
+                $('.modal').hide();
+                $('.modal-backdrop').remove();
+                $('.loader').show();
+            },
+            complete: function () {
+                $('.loader').fadeOut(1000);
+            },
+            success: function (response) {
+                if (response.token != null) {
+                    window.location = "/Admin/Index";
+                }
+                else {
+                    Swal.fire({
+                        title: 'NIK/Email atau Password Anda Salah',
+                        text: 'Silahkan Ulangi Lagi',
+                        icon: 'warning',
+                    })
+                }
+            }
+        });
+    });
 }
-function formatAngka(angka, prefix) {
-    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-        split = number_string.split(','),
-        sisa = split[0].length % 3,
-        rupiah = split[0].substr(0, sisa),
-        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-    if (ribuan) {
-        separator = sisa ? '' : '';
-        rupiah += separator + ribuan.join('');
-    }
-
-    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-}
-
-////function Auth() {
-////    Swal.fire({
-////        icon: 'success',
-////        title: 'Success',
-////        text: 'Success to Login.'
-////    }).then((result) => {
-////        if (result.isConfirmed) {
-////            $('#loginModal').modal('hide');
-////        }
-////    });
-////}

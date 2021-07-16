@@ -31,30 +31,21 @@ namespace API.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
-
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("Register")]
         public ActionResult Register(RegisterVM registerVM)
         {
             var result = employeeRepository.Register(registerVM);
-            if (result > 1)
+            if (result.Result <= 1)
             {
-                var get = Ok(new { status = HttpStatusCode.OK, result = result, message = "Berhasil di Registrasi" });
-                return get;
+                return BadRequest(result);
             }
-            else if (result == 1)
-            {
-                var get = BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Email sudah digunakan" });
-                return get;
-            }
-            else
-            {
-                var get = BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "NIK sudah digunakan" });
-                return get;
-            }
+            return Ok(result);
         }
-        [Authorize(Roles = "Admin, Employee")]
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetEmployees")]
         public ActionResult GetEmployees()
         {
