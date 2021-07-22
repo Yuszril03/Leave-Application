@@ -47,7 +47,7 @@ namespace Leave_Application.Repository.Data
         {
             Leave entities = new Leave();
 
-            using (var response = await httpClient.GetAsync(request + "/" + id))
+            using (var response = await httpClient.GetAsync(request + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<Leave>(apiResponse);
@@ -63,10 +63,10 @@ namespace Leave_Application.Repository.Data
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
 
-        public async Task<ResponseVM> UpdateLeave(Leave leave, int id)
+        public async Task<ResponseVM> UpdateLeave(Leave leave)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(leave), Encoding.UTF8, "application/json");
-            var result = await httpClient.PutAsync(request + "/" + id, content);
+            var result = await httpClient.PutAsync(request, content);
             string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }

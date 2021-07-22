@@ -48,7 +48,7 @@ function Update() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Admin/UpdateDepartment/' + id,
+                url: '/Admin/UpdateDepartment',
                 type: 'put',
                 data: obj,
                 beforeSend: function () {

@@ -62,10 +62,10 @@ namespace Leave_Application.Repository.Data
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
 
-        public async Task<ResponseVM> UpdateDepartment(Department department, int id)
+        public async Task<ResponseVM> UpdateDepartment(Department department)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(department), Encoding.UTF8, "application/json");
-            var result = await httpClient.PutAsync(request + "/" + id, content);
+            var result = await httpClient.PutAsync(request, content);
             string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }

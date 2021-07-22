@@ -130,7 +130,14 @@ namespace Leave_Application.Controllers
             var result = await employeeRepository.GetEmployees();
             return Json(result);
         }
-        
+
+        [HttpGet("Admin/GetEmployeesOnLeave")]
+        public async Task<JsonResult> GetEmployeesOnLeave()
+        {
+            var result = await employeeRepository.OnLeave();
+            return Json(result);
+        }
+
         [HttpGet("Admin/GetManagers")]
         public async Task<JsonResult> GetManagers()
         {
@@ -208,7 +215,7 @@ namespace Leave_Application.Controllers
             return Json(result);
         }
         
-        [HttpPost("Admin/AddDepartment")]
+        [HttpPost("Admin/AddDepartments")]
         public async Task<JsonResult> AddDepartments(Department department)
         {
             var result = await departmentRepository.InsertDepartment(department);
@@ -216,7 +223,7 @@ namespace Leave_Application.Controllers
         }
         
         [HttpPut("Admin/UpdateEmployee")]
-        public async Task<JsonResult> UpdateEmployee(Coba employee)
+        public async Task<JsonResult> UpdateEmployee(Employee employee)
         {
             var result = await employeeRepository.UpdateEmployee(employee);
             return Json(result);
@@ -229,17 +236,17 @@ namespace Leave_Application.Controllers
             return Json(result);
         }
 
-        [HttpPut("Admin/UpdateDepartment/{id}")]
-        public async Task<JsonResult> UpdateDepartment(Department department, int id)
+        [HttpPut("Admin/UpdateDepartment")]
+        public async Task<JsonResult> UpdateDepartment(Department department)
         {
-            var result = await departmentRepository.UpdateDepartment(department, id);
+            var result = await departmentRepository.UpdateDepartment(department);
             return Json(result);
         }
 
-        [HttpPut("Admin/UpdateLeave/{id}")]
-        public async Task<JsonResult> UpdateLeave(Leave leave, int id)
+        [HttpPut("Admin/UpdateLeave")]
+        public async Task<JsonResult> UpdateLeave(Leave leave)
         {
-            var result = await leaveRepository.UpdateLeave(leave, id);
+            var result = await leaveRepository.UpdateLeave(leave);
             return Json(result);
         }
 

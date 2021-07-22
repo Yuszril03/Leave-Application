@@ -78,7 +78,7 @@ function Update() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Admin/UpdateLeave/' + id,
+                url: '/Admin/UpdateLeave',
                 type: 'put',
                 data: obj,
                 beforeSend: function () {

@@ -176,6 +176,18 @@ namespace API.Repository.Data
             return response;
         }
 
+        public IEnumerable OnLeave()
+        {
+            var q = (from ac in myContext.Accounts
+                     where ac.LeaveStatus == LeaveStatus.Leave
+                     select new
+                     {
+                         ac.NIK
+                     }
+                    );
+            return q.ToList();
+        }
+
         public IEnumerable GetEmployees()
         {
             var q = (from em in myContext.Employees

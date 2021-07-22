@@ -204,5 +204,17 @@ namespace API.Controllers
             }
             return BadRequest(get);
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("OnLeave")]
+        public ActionResult OnLeave()
+        {
+            var get = employeeRepository.OnLeave();
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
     }
 }

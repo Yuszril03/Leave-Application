@@ -11,6 +11,33 @@ $(window).on('load', function () {
     });
 });
 
+//Script OnLeave
+$(window).on('load', function () {
+    $.ajax({
+        url: '/Admin/GetEmployeesOnLeave',
+    }).done((result) => {
+        console.log(result);
+        let count = 0;
+        $.each(result, function (key, val) {
+            ++count;
+        });
+        document.getElementById('onleave').innerHTML = count;
+    });
+});
+
+//Script Employee
+$(window).on('load', function () {
+    $.ajax({
+        url: '/Admin/GetEmployees',
+    }).done((result) => {
+        let count = 0;
+        $.each(result, function (key, val) {
+            ++count;
+        });
+        document.getElementById('employeesNumber').innerHTML = count;
+    });
+});
+
 //Script Today Date
 let monthNames = ["January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"];

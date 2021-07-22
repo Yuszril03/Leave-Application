@@ -214,12 +214,24 @@ namespace Leave_Application.Repository.Data
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
         
-        public async Task<ResponseVM> UpdateEmployee(Coba employee)
+        public async Task<ResponseVM> UpdateEmployee(Employee employee)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
             var result = await httpClient.PutAsync(request, content);
             string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
+        }
+
+        public async Task<List<Employee>> OnLeave()
+        {
+            List<Employee> entities = new List<Employee>();
+
+            using (var response = await httpClient.GetAsync(request + "OnLeave/"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<Employee>>(apiResponse);
+            }
+            return entities;
         }
 
     }
