@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Leave Application Admin Page";
+    Layout = "_AdminLayout";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-2 text-gray-800">Edit Leave</h1>
+    <button class="d-none d-sm-inline-block btn btn-info btn-icon-split shadow-sm" id="btnUpdate" form="formUpdate" type="submit">
+        <span class="icon text-white-50">
+            <i class="fa fa-tasks" aria-hidden="true"></i>
+        </span>
+        <span class="text">Save</span>
+    </button>
+</div>
+
+<div class="col-lg-12">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="needs-validation" id="formUpdate" novalidate>
+                <div class="form-group">
+                    <label for="leaveId" class="col-form-label">Leave ID</label>
+                    <input type="number" class="form-control" id="leaveId" required disabled>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill the field!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="leaveName" class="col-form-label">Leave Name</label>
+                    <input type="text" class="form-control" id="leaveName" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill the field!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="col-form-label">Leave Type</label>
+                    <select id="type" class="custom-select" onchange="selectedType(this);" required>
+                        <option selected disabled value="">-Choose Leave Type-</option>
+                        <option value="Normal Leave">Normal Leave</option>
+                        <option value="Special Leave">Special Leave</option>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please select a valid leave type!
+                    </div>
+                </div>
+                <div class="form-group" id="leaveRange">
+                    <label for="range" class="col-form-label">Leave Range</label>
+                    <input type="number" class="form-control" id="range" placeholder="Days" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill the field!
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/editleave.js" asp-append-version="true"></script>
+}

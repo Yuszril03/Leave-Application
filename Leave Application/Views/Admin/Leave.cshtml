@@ -5,13 +5,13 @@
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-2 text-gray-800">Data Cuti</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-success btn-icon-split shadow-sm">
+    <h1 class="h3 mb-2 text-gray-800">Leaves Data</h1>
+    <button class="d-none d-sm-inline-block btn btn-success btn-icon-split shadow-sm" id="buttonLeave" data-toggle="modal" data-target="#leaveModal">
         <span class="icon text-white-50">
             <i class="fas fa-plus"></i>
         </span>
-        <span class="text">Tambah Data Cuti</span>
-    </a>
+        <span class="text">Add Leave</span>
+    </button>
 </div>
 
 <!-- DataTales Example -->
@@ -21,15 +21,70 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Nama Cuti</th>
-                        <th>Jenis Cuti</th>
-                        <th>Lama Cuti</th>
-                        <th>Data Cuti</th>
+                        <th>Leave Name</th>
+                        <th>Leave Type</th>
+                        <th>Leave Range</th>
+                        <th>Leaves Data</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="leaveModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Leave</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="formLeave" novalidate>
+                    <div class="form-group">
+                        <label for="leaveName" class="col-form-label">Leave Name</label>
+                        <input type="text" class="form-control" id="leaveName" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please fill the field!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="col-form-label">Leave Type</label>
+                        <select id="type" class="custom-select" onchange="selectedType(this);" required>
+                            <option selected disabled value="">-Choose Leave Type-</option>
+                            <option value="Normal Leave">Normal Leave</option>
+                            <option value="Special Leave">Special Leave</option>
+                        </select>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please select a valid leave type!
+                        </div>
+                    </div>
+                    <div class="form-group" id="leaveRange">
+                        <label for="range" class="col-form-label">Leave Range</label>
+                        <input type="number" class="form-control" id="range" placeholder="Days" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please fill the field!
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-outline-success" id="btnLeave" type="submit">
+                        Add Leave
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

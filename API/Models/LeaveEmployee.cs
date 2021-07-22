@@ -26,5 +26,5 @@ namespace API.Models
 
 public enum Status
 {
-    Diterima, Ditolak, OnProgress
+    Approved, Rejected, OnProgress
 }

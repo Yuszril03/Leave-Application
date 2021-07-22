@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +14,6 @@ namespace API.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        
         public Gender Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string? ManagerId { get; set; }
@@ -33,5 +32,5 @@ namespace API.Models
 
 public enum Gender
 {
-    Pria, Wanita
+    Male, Female
 }

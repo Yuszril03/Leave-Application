@@ -1,45 +1,16 @@
-﻿//Datatable
-$(document).ready(function () {
-    let table = $('#dataTable').DataTable({
-        responsive: true,
-        'ajax': {
-            url: '/Admin/GetLeaves',
-            dataSrc: ''
-        },
-        'columns': [
-            { 'data': 'leaveName' },
-            { 'data': 'leaveType' },
-            {
-                'data': null,
-                'render': function (data, type, row) {
-                    if (row['leaveRange'] === 0) {
-                        return 'Determined by Requester'
-                    }
-                    else {
-                        return `${row['leaveRange']}`;
-                    }
-                }
-            },
-            {
-                'bSortable': false,
-                'data': null,
-                'render': function (data, type, row) {
-                    return `<a class='btn btn-outline-secondary' href='LeavesData/?leaveId=${row['leaveId']}'>Look</a>`;
-                }
-            },
-            {
-                'bSortable': false,
-                'data': null,
-                'render': function (data, type, row) {
-                    return `<a class='btn btn-outline-secondary' href='EditLeave/?leaveId=${row['leaveId']}'>Edit</a>`;
-                }
-            }
-        ]
-    });
+﻿const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const id = urlParams.get('leaveId');
 
-    setInterval(function () {
-        table.ajax.reload(null, false);
-    }, 3000);
+$(window).on('load', function () {
+    $.ajax({
+        url: '/Admin/GetLeave/' + id,
+    }).done((result) => {
+        $('#leaveId').val(result.leaveId);
+        $('#leaveName').val(result.leaveName);
+        $('#type').val(result.leaveType).trigger('change');
+        $('#range').val(result.leaveRange);
+    });
 });
 
 window.addEventListener('load', () => {
@@ -49,10 +20,9 @@ window.addEventListener('load', () => {
             if (!form.checkValidity()) {
                 evt.preventDefault();
                 evt.stopPropagation();
-            }
-            else {
+            } else {
                 evt.preventDefault();
-                Insert();
+                Update();
             }
             form.classList.add('was-validated');
         });
@@ -83,12 +53,14 @@ function selectedType(that) {
     }
 }
 
-function Insert() {
+function Update() {
+    let LeaveId = $("#leaveId").val();
     let LeaveName = $("#leaveName").val();
     let LeaveType = $("#type").val();
     let LeaveRange = parseInt($("#range").val());
 
     let obj = {
+        LeaveId: LeaveId,
         LeaveName: LeaveName,
         LeaveType: LeaveType,
         LeaveRange: LeaveRange
@@ -106,16 +78,14 @@ function Insert() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Admin/AddLeaves',
-                type: 'post',
+                url: '/Admin/UpdateLeave/' + id,
+                type: 'put',
                 data: obj,
                 beforeSend: function () {
-                    document.getElementById('btnLeave').classList.add('disabled');
-                    document.getElementById('btnLeave').innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                    document.getElementById('btnUpdate').classList.add('disabled');
                 }
             }).done((result) => {
-                document.getElementById('btnLeave').innerHTML = 'Add Leave';
-                document.getElementById('btnLeave').classList.remove('disabled');
+                document.getElementById('btnUpdate').classList.remove('disabled');
                 if (result.result > 0) {
                     Swal.fire({
                         icon: 'success',
@@ -125,7 +95,7 @@ function Insert() {
                         if (result.isConfirmed) {
                             $('.modal').hide();
                             $('.modal-backdrop').remove();
-                            document.getElementById('formLeave').reset();
+                            window.location = "/Admin/Leave";
                         }
                     });
                 }

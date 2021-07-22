@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Leave Application Admin Page";
+    Layout = "_AdminLayout";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-2 text-gray-800">Departments Data</h1>
+    <button class="d-none d-sm-inline-block btn btn-success btn-icon-split shadow-sm" id="buttonDepartment" data-toggle="modal" data-target="#departmentModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">Add Department</span>
+    </button>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Department ID</th>
+                        <th>Department Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="departmentModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="formDepartment" novalidate>
+                    <div class="form-group">
+                        <label for="departmentName" class="col-form-label">Department Name</label>
+                        <input type="text" class="form-control" id="departmentName" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please fill the field!
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-outline-success" id="btnDepartment" type="submit">
+                        Add Department
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/department.js" asp-append-version="true"></script>
+}

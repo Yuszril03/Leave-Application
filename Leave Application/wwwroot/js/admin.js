@@ -1,7 +1,19 @@
-﻿//Script Today Date
-const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
-    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-];
+﻿//Script Employee
+$(window).on('load', function () {
+    $.ajax({
+        url: '/Admin/GetEmployees',
+    }).done((result) => {
+        let count = 0;
+        $.each(result, function (key, val) {
+            ++count;
+        });
+        document.getElementById('employeesNumber').innerHTML = count;
+    });
+});
+
+//Script Today Date
+let monthNames = ["January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"];
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = monthNames[today.getMonth()];
@@ -26,14 +38,14 @@ setInterval(time, 1000);
 function ShowModal()
 {
     Swal.fire({
-        title: 'Anda yakin?',
-        text: 'Anda akan butuh untuk login lagi',
+        title: 'Are you sure?',
+        text: 'You need to login again.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, keluar',
-        cancelButtonText: 'Batal'
+        confirmButtonText: 'Yes, logout',
+        cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = '/Home/Logout';

@@ -141,12 +141,12 @@ namespace API.Repository.Data
                     myContext.SaveChanges();
 
                     //Account
-                    string hash = Hashing.Hash(registerVM.Password);
-                    var role = myContext.Roles.Single(r => r.RoleName == "Employee");
+                    string guid = GUID.NewGUID();
+                    var role = myContext.Roles.Single(r => r.RoleId == 1);
                     Account account = new Account()
                     {
                         NIK = employee.NIK,
-                        Password = hash,
+                        Password = Hashing.Hash(guid),
                         LeaveQuota = registerVM.LeaveQuota,
                         LeaveStatus = (LeaveStatus)registerVM.LeaveStatus,
                         Roles = new List<Role>()
@@ -154,21 +154,22 @@ namespace API.Repository.Data
                     account.Roles.Add(role);
                     myContext.Accounts.Add(account);
                     myContext.SaveChanges();
+                    Mailing.SendPasswordMail(employee.Email, guid, employee.FirstName);
 
-                    response.Message = "Sukses menambah data karyawan";
+                    response.Message = "Success adding new employee.";
                     response.Result = 2;
                     response.Status = HttpStatusCode.OK;
                 }
                 else
                 {
-                    response.Message = "Email sudah digunakan";
+                    response.Message = "Email already used.";
                     response.Result = 1;
                     response.Status = HttpStatusCode.BadRequest;
                 }
             }
             else
             {
-                response.Message = "NIK sudah digunakan";
+                response.Message = "NIK already used.";
                 response.Result = 1;
                 response.Status = HttpStatusCode.BadRequest;
             }
@@ -346,6 +347,43 @@ namespace API.Repository.Data
             myContext.Entry(account).State = EntityState.Modified;
            var result=  myContext.SaveChanges();
             return result;
+        }
+
+        public IEnumerable GetManagers()
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     join ar in myContext.AccountRoles on ac.NIK equals ar.NIK
+                     where ar.RoleId == 2
+                     select new
+                     {
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName
+                     }
+                     );
+            return q.ToList();
+        }
+
+        public IEnumerable GetEmployee(string nik)
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     where em.NIK == $"{nik}"
+                     select new
+                     {
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         Gender = (em.Gender==0)?"Male":"Female",
+                         em.PhoneNumber,
+                         em.ManagerId,
+                         dep.DepartmentId
+                     }                   
+                     );
+            return q.ToList();
         }
 
         public JWTVM Auth(LoginVM loginVM, IConfiguration configuration)

@@ -12,10 +12,12 @@ namespace Leave_Application.Controllers
     public class HomeController : Controller
     {
         private readonly HomeRepository homeRepository;
+        private readonly AccountRepository accountRepository;
 
-        public HomeController(HomeRepository homeRepository)
+        public HomeController(HomeRepository homeRepository, AccountRepository accountRepository)
         {
             this.homeRepository = homeRepository;
+            this.accountRepository = accountRepository;
         }
 
         [HttpPut("Home/Put")]
@@ -99,6 +101,13 @@ namespace Leave_Application.Controllers
             return Json(trueRole);
         }
        
+        [HttpPut("Home/ResetPassword")]
+        public async Task<JsonResult> ResetPassword(ResetPasswordVM resetPasswordVM)
+        {
+            var result = await accountRepository.ResetPassword(resetPasswordVM);
+            return Json(result);
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
