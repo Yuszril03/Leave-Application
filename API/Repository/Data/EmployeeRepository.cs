@@ -27,7 +27,7 @@ namespace API.Repository.Data
                      join em in myContext.Employees on ac.NIK equals em.NIK
                      join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
                      join l in myContext.Leaves on lm.LeaveId equals l.LeaveId
-                     where em.NIK == nik && lm.Status == Status.Diterima
+                     where em.NIK == nik && lm.Status == Status.Approved
                      orderby lm.NoLeave descending
                      select new
                      {

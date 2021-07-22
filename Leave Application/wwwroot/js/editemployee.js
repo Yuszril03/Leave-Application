@@ -99,6 +99,7 @@ function Update() {
                     document.getElementById('btnUpdate').classList.add('disabled');
                 }
             }).done((result) => {
+                console.log(result)
                 document.getElementById('btnUpdate').classList.remove('disabled');
                 if (result.result > 0) {
                     Swal.fire({

@@ -22,7 +22,7 @@ namespace Leave_Application.Repository.Data
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly HttpClient httpClient;
 
-        public LeaveEmployeeRepository(Address address, string request = "LeaveEmployee") : base(address, request)
+        public LeaveEmployeeRepository(Address address, string request = "LeaveEmployee/") : base(address, request)
         {
             this.address = address;
             this.request = request;

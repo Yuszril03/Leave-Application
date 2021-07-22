@@ -1,18 +1,12 @@
 ﻿using API.Models;
-
 using Leave_Application.Base;
-using Leave_Application.ViewModel;
-
 using API.ViewModel;
-using Leave_Application.Base;
 using Leave_Application.Models;
-
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -36,7 +30,6 @@ namespace Leave_Application.Repository.Data
             {
                 BaseAddress = new Uri(address.link)
             };
-
             //JWT
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
@@ -60,29 +53,35 @@ namespace Leave_Application.Repository.Data
         public async Task<List<RegisterVM>> GetProfil()
         {
             List<RegisterVM> entities = new List<RegisterVM>();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
+            using (var response = await httpClient.GetAsync(request + "GetEmployees/"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+            }
+            return entities;
+
         }
-        public async Task<List<Employees>> GetEmployees()
+        public async Task<List<Leave_Application.ViewModel.RegisterVM>> GetEmployees()
         {
-            List<Employees> entities = new List<Employees>();
+            List<Leave_Application.ViewModel.RegisterVM> entities = new List<Leave_Application.ViewModel.RegisterVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetEmployees/"))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
-                entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.RegisterVM>>(apiResponse);
             }
             return entities;
         }
 
-        public async Task<List<RegisterVM>> GetEmployeesEachManager(string nik)
+        public async Task<List<Leave_Application.ViewModel.RegisterVM>> GetEmployeesEachManager(string nik)
         {
-            List<RegisterVM> entities = new List<RegisterVM>();
+            List<Leave_Application.ViewModel.RegisterVM> entities = new List<Leave_Application.ViewModel.RegisterVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetEmployeesEachManager/"+nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.RegisterVM>>(apiResponse);
             }
             return entities;
         }
@@ -99,63 +98,62 @@ namespace Leave_Application.Repository.Data
             return entities;
         }
 
-        public async Task<List<LeaveEmployeeVM>> GetAccountLEaveEmployee(string nik)
+        public async Task<List<Leave_Application.ViewModel.LeaveEmployeeVM>> GetAccountLEaveEmployee(string nik)
         {
-            List<LeaveEmployeeVM> entities = new List<LeaveEmployeeVM>();
+            List<Leave_Application.ViewModel.LeaveEmployeeVM> entities = new List<Leave_Application.ViewModel.LeaveEmployeeVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetAccountLEaveEmployee/" + nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<LeaveEmployeeVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.LeaveEmployeeVM>>(apiResponse);
             }
             return entities;
         }
-        public async Task<List<LeaveEmployeeVM>> CheckLeave(string nik)
+        public async Task<List<Leave_Application.ViewModel.LeaveEmployeeVM>> CheckLeave(string nik)
         {
-            List<LeaveEmployeeVM> entities = new List<LeaveEmployeeVM>();
+            List<Leave_Application.ViewModel.LeaveEmployeeVM> entities = new List<Leave_Application.ViewModel.LeaveEmployeeVM>();
 
             using (var response = await httpClient.GetAsync(request + "CheckLeave/" + nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<LeaveEmployeeVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.LeaveEmployeeVM>>(apiResponse);
             }
             return entities;
         }
-        public async Task<List<ChartDonat>> GetDataStatusLeave(string nik)
+        public async Task<List<Leave_Application.ViewModel.ChartDonat>> GetDataStatusLeave(string nik)
         {
-            List<ChartDonat> entities = new List<ChartDonat>();
+            List<Leave_Application.ViewModel.ChartDonat> entities = new List<Leave_Application.ViewModel.ChartDonat>();
 
             using (var response = await httpClient.GetAsync(request + "GetDataStatusLeave/" + nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<ChartDonat>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.ChartDonat>>(apiResponse);
 
-                entities = JsonConvert.DeserializeObject<List<Employees>>(apiResponse);
-
+               
             }
             return entities;
         }
 
-        public async Task<List<ChartYearEmployeecs>> GetDataYearLeave(string nik)
+        public async Task<List<Leave_Application.ViewModel.ChartYearEmployeecs>> GetDataYearLeave(string nik)
         {
-            List<ChartYearEmployeecs> entities = new List<ChartYearEmployeecs>();
+            List<Leave_Application.ViewModel.ChartYearEmployeecs> entities = new List<Leave_Application.ViewModel.ChartYearEmployeecs>();
 
             using (var response = await httpClient.GetAsync(request + "GetDataYearLeave/" + nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<ChartYearEmployeecs>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.ChartYearEmployeecs>>(apiResponse);
             }
             return entities;
         }
 
-        public async Task<List<LeaveEmployeeVM>> GetAllLeaveEmployee(string nik)
+        public async Task<List<Leave_Application.ViewModel.LeaveEmployeeVM>> GetAllLeaveEmployee(string nik)
         {
-            List<LeaveEmployeeVM> entities = new List<LeaveEmployeeVM>();
+            List<Leave_Application.ViewModel.LeaveEmployeeVM> entities = new List<Leave_Application.ViewModel.LeaveEmployeeVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetAllLeaveEmployee/"+nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<LeaveEmployeeVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.LeaveEmployeeVM>>(apiResponse);
             }
             return entities;
         }
@@ -184,26 +182,26 @@ namespace Leave_Application.Repository.Data
             return entities;
         }
 
-        public async Task<List<LeaveEmployeeVM>> GetOneLeaveEmployee(int id)
+        public async Task<List<Leave_Application.ViewModel.LeaveEmployeeVM>> GetOneLeaveEmployee(int id)
         {
-            List<LeaveEmployeeVM> entities = new List<LeaveEmployeeVM>();
+            List<Leave_Application.ViewModel.LeaveEmployeeVM> entities = new List<Leave_Application.ViewModel.LeaveEmployeeVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetOneLeaveEmployee/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<LeaveEmployeeVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.LeaveEmployeeVM>>(apiResponse);
             }
             return entities;
         }
 
-        public async Task<List<RegisterVM>> GetProfil(string nik)
+        public async Task<List<Leave_Application.ViewModel.RegisterVM>> GetProfil(string nik)
         {
-            List<RegisterVM> entities = new List<RegisterVM>();
+            List<Leave_Application.ViewModel.RegisterVM> entities = new List<Leave_Application.ViewModel.RegisterVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetEmployees/"+nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.RegisterVM>>(apiResponse);
             }
             return entities;
         }

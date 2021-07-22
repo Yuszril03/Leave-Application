@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Leave_Application.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly EmployeeRepository employeeRepository;
