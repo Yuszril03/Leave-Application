@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/template-mazer/css-setting/Employee/normal.css">
     <link rel="stylesheet" href="/template-mazer/css-setting/Employee/profil.css">
     <link rel="stylesheet" href="/template-mazer/css-setting/Employee/katasandi.css">
+    <link rel="stylesheet" href="/template-mazer/css-setting/Employee/LeaveResponse.css">
     <link rel="shortcut icon" href="/template-mazer/assets/images/favicon.svg" type="image/x-icon">
     @*DatePICKER*@
     @*<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />*@
@@ -38,53 +39,46 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="index.html"><img src="/template-mazer/assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                            <a href="/User"><img src="" alt="Leave App" srcset=""></a>
                         </div>
                         <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                            <a href="/User" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item @(ViewData["type"].ToString() == "Beranda" ? "active" : "")">
-                            <a href="/Employee" class='sidebar-link'>
+                        <li class="sidebar-item @(ViewData["type"].ToString() == "Home" ? "active" : "")">
+                            <a href="/User" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Beranda</span>
+                                <span>Home</span>
                             </a>
                         </li>
-                        @{ if (@Context.Session.GetString("Role") == "Manajer")
+
+                        @{ if (@Context.Session.GetString("Role") == "Manager")
                             {
-                                <li class="sidebar-item  has-sub @(ViewData["type"].ToString() == "Data" ? "active" : "")">
-                                    <a href="#" class='sidebar-link'>
-                                        <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                        <span>Data Cuti</span>
+                                <li class="sidebar-item @(ViewData["type"].ToString() == "Data" ? "active" : "")">
+                                    <a href="/User/LeaveEmployees" class='sidebar-link'>
+                                        <i class="bi bi-people"></i>
+                                        <span>   Data Employees</span>
                                     </a>
-                                    <ul class="submenu @(ViewData["type"].ToString() == "Data" ? "active" : "")">
-                                        <li class="submenu-item ">
-                                            <a href="/Employee/DataCuti">Karyawan Cuti</a>
-                                        </li>
-                                        <li class="submenu-item ">
-                                            <a href="/Employee/TanggapanCuti">Tanggapan Cuti</a>
-                                        </li>
-                                    </ul>
                                 </li>
+
+                                <li class="sidebar-item @(ViewData["type"].ToString() == "Respon" ? "active" : "")">
+                                    <a href="/User/LeaveResponse" class='sidebar-link'>
+                                        <i class="bi bi-pen-fill"></i>
+                                        <span>   Leave Response</span>
+                                    </a>
+                                </li>
+
                             } }
 
-                        <li class="sidebar-item  has-sub @(ViewData["type"].ToString() == "Cuti" ? "active" : "")">
-                            <a href="#" class='sidebar-link'>
+                        <li class="sidebar-item @(ViewData["type"].ToString() == "Leave Request" ? "active" : "")">
+                            <a href="/User/LeaveRequest" class='sidebar-link'>
                                 <i class="bi bi-calendar3"></i>
-                                <span>Pengajuan Cuti</span>
+                                <span>Leave Request</span>
                             </a>
-                            <ul class="submenu @(ViewData["type"].ToString() == "Cuti" ? "active" : "")">
-                                <li class="submenu-item ">
-                                    <a href="/Employee/CutiNormal">Cuti Normal</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/Employee/CutiSpesial">Cuti Spesial</a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -106,6 +100,33 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                @{
+                                    if (@Context.Session.GetString("Role") == "Manager")
+                                    {
+                                        <li class="nav-item dropdown me-3">
+                                            <a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                                               aria-expanded="false">
+                                                <div id="notif">
+
+                                                </div>
+                                                <i class='bi bi-bell bi-sub fs-4 text-gray-600 '>
+
+                                                </i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-sm-end" aria-labelledby="dropdownMenuButton">
+                                                <li>
+                                                    <h6 class="dropdown-header">Notifications</h6>
+                                                </li>
+                                                <div id="isi">
+
+                                                </div>
+                                                @*<li><a class="dropdown-item">No notification available</a></li>*@
+
+                                            </ul>
+                                        </li>
+                                    }
+                                }
+
                             </ul>
                             <div class="dropdown">
                                 <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -116,7 +137,7 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar bg-warning avatar-md">
-                                                @{ 
+                                                @{
                                                     string a = @Context.Session.GetString("Name");
                                                     string awal = a.Substring(0, 1);
                                                 }
@@ -127,18 +148,18 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                     <li>
-                                        <h6 class="dropdown-header">Halo, @Context.Session.GetString("Name")!</h6>
+                                        <h6 class="dropdown-header">Hello, @Context.Session.GetString("Name")!</h6>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="/Employee/Profil">
+                                        <a class="dropdown-item" href="/User/Profile">
                                             <i class="icon-mid bi bi-person me-2"></i>
-                                            Profil
+                                            Profile
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="/Employee/UbahKataSandi">
+                                        <a class="dropdown-item" href="/User/ChangePassword">
                                             <i class="icon-mid bi bi-key me-2"></i>
-                                            Edit Kata Sandi
+                                            Change Password
                                         </a>
                                     </li>
                                     <li>
@@ -156,18 +177,19 @@
                 </nav>
             </header>
             <div id="main-content">
+                <input type="hidden" id="nikHidden" value="@Context.Session.GetString("NIK")" />
                 @RenderBody()
 
                 <footer>
                     <div class="footer clearfix mb-0 text-muted">
                         <div class="float-start">
-                            <p>2021 &copy; Leave Application</p>
+                            <p><span id="year"></span> &copy; Leave Application</p>
                         </div>
-                        <div class="float-end">
-                            <p>
-                                Dibuat oleh <span class="text-danger"><i class="bi bi-pencil"></i></span> <a href="http://ahmadsaugi.com">Taufan</a> & <a href="http://ahmadsaugi.com">Yuszril</a>
-                            </p>
-                        </div>
+                        @*<div class="float-end">
+                                <p>
+                                    Dibuat oleh <span class="text-danger"><i class="bi bi-pencil"></i></span> <a href="http://ahmadsaugi.com">Taufan</a> & <a href="http://ahmadsaugi.com">Yuszril</a>
+                                </p>
+                            </div>*@
                     </div>
                 </footer>
             </div>
@@ -178,7 +200,9 @@
     <script src="/template-mazer/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/template-mazer/assets/js/bootstrap.bundle.min.js"></script>
 
-    <script src="/template-mazer/assets/vendors/apexcharts/apexcharts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="/template-mazer/assets/js/pages/dashboard.js"></script>
 
     <script src="/template-mazer/assets/js/main.js"></script>
@@ -189,10 +213,11 @@
     @*<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>*@
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @*<script src="/template-mazer/assets/vendors/simple-datatables/simple-datatables.js"></script>*@
-    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-
+    <script src="~/template-mazer/js-setting/Employee/Index.js" asp-append-version="true"></script>
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

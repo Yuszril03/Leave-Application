@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    ViewData["type"] = "Home";
+    ViewData["Aplikasi"] = "Leave Application";
+    Layout = "_LayoutMazer";
+}
+@using Microsoft.AspNetCore.Http
+
+<div class="page-heading">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Home</h3>
+            <p class="text-subtitle text-muted">Welcome back, @Context.Session.GetString("Name")</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Leave Application</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Home
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12 col-lg-8">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card statusSM">
+                        <div class="card-body py-4 px-5">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-xl">
+                                    <img src="/template-mazer/assets/images/logo/portfolio.svg" alt="Face 1">
+                                </div>
+                                <div class="ms-3 name">
+                                    <h5 class="font-bold">Status</h5>
+                                    <h6 class="text-muted mb-0">Masuk</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4> <span class="text-primary"><i class="bi bi-card-list"></i></span> My Submission Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive-lg p-2">
+                                <table id="tableBeranda" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Type of Leave</th>
+                                            <th>Leave Period</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{ if (@Context.Session.GetString("Role") == "Manager") {
+                        <section class="section">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4><span class="text-info"><i class="bi bi-bar-chart-fill"></i></span> Leave Statistics For 2021</h4>
+                                </div>
+                                <div class="card-content pb-4">
+                                    <div id="leavesss" class="leavesss"></div>
+                                </div>
+                            </div>
+                        </section>
+
+                }
+
+               }
+            
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card statusLG">
+                <div class="card-body py-4 px-5">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl">
+                            <img src="/template-mazer/assets/images/logo/portfolio.svg" alt="Face 1">
+                        </div>
+                        <div class="ms-3 name">
+                            <h5 class="font-bold">Status</h5>
+                            <div id="statusHome">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{
+                if (@Context.Session.GetString("Role") == "Manager")
+                {
+                    <section class="section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4><span class="text-danger"><i class="bi bi-pie-chart"></i></span> Employee Statistics</h4>
+                            </div>
+                            <div class="card-content pb-4">
+                                <div id="chart"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                }
+
+            }
+        </div>
+    </section>
+    
+</div>
+@section Scripts{
+    <script src="~/template-mazer/js-setting/Employee/beranda.js"></script>
+}

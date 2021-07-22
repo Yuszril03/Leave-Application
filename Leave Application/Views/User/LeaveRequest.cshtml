@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Leave Request";
+    ViewData["type"] = "Cuti";
+    ViewData["Aplikasi"] = "Leave Application";
+    Layout = "_LayoutMazer";
+}
+
+
+<div class="page-heading">
+
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Leave Request</h3>
+            <p class="text-subtitle text-muted">Can apply for employee leave, the application is made one week before taking leave.</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Leave Application</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Leave Request
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+   
+    <div class="alert alert-danger" style="display:none;" id="alertLeave" role="alert">
+        Sorry, your time off has expired!
+    </div>
+    <div class="alert alert-success" style="display:none;" id="alertLeaveSuccess" role="alert">
+        Leave request successfully sent!
+    </div>
+    
+
+
+</div>
+<div class="page-content">
+    @*<form method="post" action="/User/Part6" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <button type="submit">Upload</button>
+    </form>*@
+
+   
+    <section class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4> <span class="text-primary"><i class="bi bi-input-cursor-text"></i></span> Leave Application Form</h4>
+                </div>
+                <div class="card-body">
+                    <form enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group">
+                                    <label>Type of Leave</label>
+                                    <select name="typeLeave" id="typeLeave" class="form-select"></select>
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        Please provide a valid leave type.
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Leave Period</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" id="tglawal" readonly class="form-control tglawal" placeholder="Start Date">
+                                            <input type="text" id="tglawalTemp" readonly class="form-control tglawalTemp" placeholder="Start Date">
+                                        </div>
+                                        <div class="col">
+                                            <input type="hidden" id="quotaLeave" />
+                                            <input type="hidden" id="typeLeaveTemp" />
+                                            <input type="text" id="tglakhir" class="form-control tglakhir" placeholder="End Date">
+                                            <input type="text" id="tglakhirTemp" readonly class="form-control tglakhirTemp" placeholder="End Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="submit" type="button" class="btn btn-primary mt-4">Apply for Leave</button>
+                            </div>
+                            <div class="col">
+                                <div class="file-upload">
+
+                                    <div class="image-upload-wrap">
+                                        <input id="uploadFilee" class="file-upload-input" type='file' onchange="readURL(this);" />
+                                        <div class="drag-text">
+                                            <i class="bi bi-cloud-arrow-up-fill" style="font-size: 5rem; padding:0px;"></i>
+                                            <h6 style="margin-top:-20px;"><b>Drag and drop files or select add Image</b></h6>
+                                        </div>
+                                    </div>
+                                    <div class="file-upload-content">
+                                        <i class="bi bi-file-earmark-text-fill" style="font-size: 5rem; padding:0px;"></i>
+                                        <p class="image-title">Uploaded Image</p>
+                                        <div class="image-title-wrap">
+                                            <button type="button" onclick="removeUpload()" class="remove-image">Remove </button>
+                                        </div>
+                                    </div>
+                                    <p id="alertDoc" class="text-danger">Please include document attachments!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </section>
+</div>
+@section Scripts{
+
+    <script src="~/template-mazer/js-setting/Employee/LeaveRequest.js"></script>
+}

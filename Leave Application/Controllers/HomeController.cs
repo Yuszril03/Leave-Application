@@ -4,12 +4,7 @@ using Leave_Application.Repository.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Leave_Application.Controllers
@@ -82,29 +77,28 @@ namespace Leave_Application.Controllers
             {
                 if (a == 1 && b == 0)
                 {
-                    trueRole = "Manajer";
+                    trueRole = "Manager";
                     HttpContext.Session.SetString("Role", trueRole);
                 }
                 else if (a == 1 && b == 1)
                 {
-                    trueRole = "Manajer";
+                    trueRole = "Manager";
                     HttpContext.Session.SetString("Role", trueRole);
                 }
 
                 else if (a == 0 && b == 1)
                 {
-                    trueRole = "Karyawan";
+                    trueRole = "Employee";
                     HttpContext.Session.SetString("Role", trueRole);
                 }
             }
-                    return RedirectToAction("Beranda", "Employee");
+                    return RedirectToAction("Index", "User");
 
 
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.SetString("JWToken", "");
-            HttpContext.Session.SetString("Name", "");
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

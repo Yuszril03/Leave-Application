@@ -6,7 +6,7 @@
 
     function onLoadd() {
         $.ajax({
-            url: "/Employee/GetOneProfil"
+            url: "/User/GetOneProfil"
         }).done((result) => {
             //View
             $("#nikV").html(result[0].nik)
@@ -18,15 +18,20 @@
             if (result[0].managerId == null) {
                 $("#manajerV").html("-")
             } else {
-                $("#manajerV").html(result[0].gender)
+                $.ajax({
+                    url: "/Employee/Get/" + result[0].managerId
+                }).done((hasil) => {
+                    $("#manajerV").html(hasil.firstName + " " + hasil.lastName)
+                })
+                
             }
 
             $("#depV").html(result[0].departmentName)
             $("#cutiV").html(result[0].leaveQuota)
             if (result[0].leaveStatus == 1) {
-                $("#statusV").html('<span class="badge bg-success">Masuk</span>')
+                $("#statusV").html('<span class="badge bg-success">Work</span>')
             } else {
-                $("#statusV").html('<span class="badge bg-secondary">Cuti</span>')
+                $("#statusV").html('<span class="badge bg-secondary">Leave</span>')
             }
 
         })
@@ -52,7 +57,8 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? '+62' + rupiah : '');
     }
-
+    $('#doneUpdate').hide();
+    $('#failUpdate').hide();
     let forms = document.getElementById('submit');
     forms.addEventListener("click", function () {
         var form = $("#form").serializeArray();
@@ -66,12 +72,12 @@
                     if (document.getElementById("valEmail").value == "1") {
                         $("#" + form[t].name).removeClass("is-valid")
                         $('#' + form[t].name).addClass("is-invalid");
-                        $("#femail").html("Email yang anda isi sudah digunakan!")
+                        $("#femail").html("The email you entered is already in use!")
                         count++;
                     } else if (form[t].value == "") {
                         $("#" + form[t].name).removeClass("is-valid")
                         $('#' + form[t].name).addClass("is-invalid");
-                        $("#femail").html("Harap isi email!")
+                        $("#femail").html("Please fill in the email!")
                         count++;
                     }
                     else {
@@ -88,7 +94,7 @@
                 if ((form[t].value).length < 12) {
                     $("#" + form[t].name).removeClass("is-valid")
                     $('#' + form[t].name).addClass("is-invalid");
-                    $("#ftelfon").html("Nomor telefon kurang dari 12 digit!")
+                    $("#ftelfon").html("Phone number less than 12 digits!")
                     count++;
                 } else {
                     $("#" + form[t].name).removeClass("is-invalid")
@@ -118,17 +124,23 @@
             obj.DepartmentId = $("#tempDep").val()
             const myJSON = JSON.stringify(obj);
             $.ajax({
-                url: '/Home/Put',
+                url: '/Employee/Put',
                 type: "PUT",
                 data: obj
             }).done((result) => {
-                var x = $("#firstnameE").val();
-                myModal.hide()
-                $("#namaAtas").html(x)
-                console.log(x)
-                onLoadd();
+                var delayInMilliseconds = 1000; //1 second
+
+                setTimeout(function () {
+                    var x = $("#firstnameE").val();
+                    myModal.hide()
+                    $("#namaAtas").html(x)
+                    $('#doneUpdate').show();
+                    onLoadd();
+                }, delayInMilliseconds);
+               
             }).fail((error) => {
                 myModal.hide()
+                $('#failUpdate').show();
 
                 console.log(error)
             })
@@ -190,7 +202,7 @@ function openModal() {
     }
 
     $.ajax({
-        url: "/Employee/GetSessionNIK"
+        url: "/User/GetSessionNIK"
     }).done((hasil) => {
         $.ajax({
             url: "/Employee/Get/" + hasil

@@ -2,6 +2,7 @@
 using API.Models;
 using API.Utils;
 using API.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,103 @@ namespace API.Repository.Data
         public EmployeeRepository(MyContext myContext) : base(myContext)
         {
             this.myContext = myContext;
+        }
+
+
+        public IEnumerable CheckLeave(string nik)
+        {
+            var q = (from lm in myContext.LeaveEmployees
+                     join ac in myContext.Accounts on lm.NIK equals ac.NIK
+                     join em in myContext.Employees on ac.NIK equals em.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     join l in myContext.Leaves on lm.LeaveId equals l.LeaveId
+                     where em.NIK == nik && lm.Status == Status.Diterima
+                     orderby lm.NoLeave descending
+                     select new
+                     {
+                         //Leave Employee
+                         lm.StartDate,
+                         lm.EndDate,
+                         lm.Status,
+                         lm.NoLeave,
+                         lm.Attachment,
+                         lm.TotalDays,
+                         //Employee
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         em.PhoneNumber,
+                         dep.DepartmentName,
+                         //Leave
+                         l.LeaveName,
+                         l.LeaveType
+                     }
+                    );
+            return q.ToList();
+        }
+
+        public IEnumerable GetAllLeaveEmployee(string nik)
+        {
+            var q = (from lm in myContext.LeaveEmployees
+                     join ac in myContext.Accounts on lm.NIK equals ac.NIK
+                     join em in myContext.Employees on ac.NIK equals em.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     join l in myContext.Leaves on lm.LeaveId equals l.LeaveId
+                     where em.ManagerId == nik && lm.Status == Status.OnProgress
+                     select new
+                     {
+                         //Leave Employee
+                         lm.StartDate,
+                         lm.EndDate,
+                         lm.Status,
+                         lm.NoLeave,
+                         lm.Attachment,
+                         lm.TotalDays,
+                         //Employee
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         em.PhoneNumber,
+                         dep.DepartmentName,
+                         //Leave
+                         l.LeaveName,
+                         l.LeaveType
+                     }
+                    );
+            return q.ToList();
+        }
+
+        public IQueryable GetOneLeaveEmployee(int id)
+        {
+            var q = (from lm in myContext.LeaveEmployees
+                     join ac in myContext.Accounts on lm.NIK equals ac.NIK
+                     join em in myContext.Employees on ac.NIK equals em.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     join l in myContext.Leaves on lm.LeaveId equals l.LeaveId
+                     where lm.NoLeave == id
+                     select new
+                     {
+                         //Leave Employee
+                         lm.StartDate,
+                         lm.EndDate,
+                         lm.Status,
+                         lm.NoLeave,
+                         lm.Attachment,
+                         lm.TotalDays,
+                         //Employee
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         em.PhoneNumber,
+                         dep.DepartmentName,
+                         //Leave
+                         l.LeaveName,
+                         l.LeaveType
+                     }
+                    );
+            return q;
         }
 
         public int Register(RegisterVM registerVM)
@@ -79,7 +177,7 @@ namespace API.Repository.Data
                          em.FirstName,
                          em.LastName,
                          em.Email,
-                         Gender = (em.Gender==0)?"Pria":"Wanita",
+                         Gender = (em.Gender==0)?"Male":"Female",
                          em.PhoneNumber,
                          em.ManagerId,
                          dep.DepartmentName,
@@ -89,6 +187,110 @@ namespace API.Repository.Data
                      );
             return q.ToList();
         }
+        public IEnumerable GetAccountLEaveEmployee(string nik)
+        {
+            var q = (from lm in myContext.LeaveEmployees
+                     join ac in myContext.Accounts on lm.NIK equals ac.NIK
+                     join em in myContext.Employees on ac.NIK equals em.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     join l in myContext.Leaves on lm.LeaveId equals l.LeaveId
+                     where em.NIK == nik 
+                     orderby lm.NoLeave descending
+                     select new
+                     {
+                         //Leave Employee
+                         lm.StartDate,
+                         lm.EndDate,
+                         lm.Status,
+                         lm.NoLeave,
+                         lm.Attachment,
+                         lm.TotalDays,
+                         //Employee
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         em.PhoneNumber,
+                         dep.DepartmentName,
+                         //Leave
+                         l.LeaveName,
+                         l.LeaveType
+                     }
+                      );
+            return q.ToList();
+        }
+        public IEnumerable GetDataStatusLeave(string nik)
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     where em.ManagerId == nik
+                     select new
+                     {
+                         ac.LeaveStatus
+                     }
+                      );
+            return q.ToList();
+        }
+        public IEnumerable GetDataYearLeave(string nik)
+        {
+            var q = (from lm in myContext.LeaveEmployees
+                     join ac in myContext.Accounts on lm.NIK equals ac.NIK
+                     join em in myContext.Employees on ac.NIK equals em.NIK
+                     where em.ManagerId == nik
+                     select new
+                     {
+                         lm.StartDate,
+                         lm.EndDate,
+                         lm.Status,
+                     }
+                      );
+            return q.ToList();
+        }
+        public IEnumerable GetEmployeesEachManager(string nik)
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     where em.ManagerId == nik
+                     select new
+                     {
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         Gender = (em.Gender == 0) ? "Male" : "Female",
+                         em.PhoneNumber,
+                         em.ManagerId,
+                         dep.DepartmentName,
+                         ac.LeaveQuota,
+                         ac.LeaveStatus
+                     }
+                     );
+            return q.ToList();
+        }
+        public IEnumerable GetOneEmployeesEachManager(string nik)
+        {
+            var q = (from em in myContext.Employees
+                     join ac in myContext.Accounts on em.NIK equals ac.NIK
+                     join dep in myContext.Departments on em.DepartmentId equals dep.DepartmentId
+                     where em.NIK == nik
+                     select new
+                     {
+                         em.NIK,
+                         em.FirstName,
+                         em.LastName,
+                         em.Email,
+                         Gender = (em.Gender == 0) ? "Male" : "Female",
+                         em.PhoneNumber,
+                         em.ManagerId,
+                         dep.DepartmentName,
+                         ac.LeaveQuota,
+                         ac.LeaveStatus
+                     }
+                     );
+            return q.ToList();
+        }
+
         public IQueryable GetEmployees(string nik)
         {
             var q = (from em in myContext.Employees
@@ -101,7 +303,7 @@ namespace API.Repository.Data
                          em.FirstName,
                          em.LastName,
                          em.Email,
-                         Gender = (em.Gender == 0) ? "Pria" : "Wanita",
+                         Gender = (em.Gender == 0) ? "Male" : "Female",
                          em.PhoneNumber,
                          em.ManagerId,
                          dep.DepartmentName,
@@ -110,6 +312,31 @@ namespace API.Repository.Data
                      }
                      );
             return q;
+        }
+
+        public int CheckPassword(ChangePassword changePassword)
+        {
+            var check = myContext.Accounts.FirstOrDefault(a => a.NIK == changePassword.NIK);
+            if(Hashing.Validate(changePassword.Password, check.Password) == true)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        public int UpdatePassword (UpdatePassword updatePassword)
+        {
+            string hash = Hashing.Hash(updatePassword.Password);
+            Account account = new Account()
+            {
+                NIK = updatePassword.NIK,
+                Password = hash,
+                LeaveQuota = updatePassword.LeaveQuota,
+                LeaveStatus =updatePassword.LeaveStatus,
+            };
+            myContext.Entry(account).State = EntityState.Modified;
+           var result=  myContext.SaveChanges();
+            return result;
         }
 
         public JWTVM Auth(LoginVM loginVM, IConfiguration configuration)

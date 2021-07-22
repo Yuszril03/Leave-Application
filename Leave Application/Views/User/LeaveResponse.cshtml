@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Leave Response";
+    ViewData["type"] = "Respon";
+    ViewData["Aplikasi"] = "Leave Application";
+    Layout = "_LayoutMazer";
+}
+
+
+<div class="page-heading">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Leave Response</h3>
+            <p class="text-subtitle text-muted">Can view employee leave data and handle leave</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Leave Application</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Leave Response
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4> <span class="text-primary"><i class="bi bi-input-cursor-text"></i></span> Leave Application Data</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tableLeaveEmployee" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Leave Request</th>
+                                    <th>Leave Period</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Details Leave Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idRespon"/>
+                <div class="row">
+                    <div class="col-lg">
+                        <p class="fw-bold text-model-respon"><i class="bi bi-person"></i> Employee Data</p>
+                        <div class="row p-2">
+                            <div class="col-lg-6">Name</div>
+                            <div class="col-lg fw-bold text-model-respon" id="nameEmploy">Loading...</div>
+                            <input type="hidden" id="nikUSer" />
+                        </div>
+                        <div class="row p-2">
+                            <div class="col-lg-6">Email</div>
+                            <div class="col-lg fw-bold text-break text-model-respon" id="email">Loading...</div>
+                        </div>
+                        <div class="row p-2">
+                            <div class="col-lg-6">Phone Number</div>
+                            <div class="col-lg fw-bold text-model-respon" id="phone">Loading...</div>
+                        </div>
+                        <div class="row p-2">
+                            <div class="col-lg-6">Department Name</div>
+                            <div class="col-lg fw-bold text-model-respon" id="Dept">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <p class="fw-bold text-model-respon "><i class="bi bi-file-earmark"></i> Leave Request Data</p>
+                        <div class="row p-2">
+                            <div class="col-lg">leave Name</div>
+                            <div class="col-lg fw-bold text-model-respon" id="leaveName">Loading...</div>
+                        </div>
+                        <div class="row p-2">
+                            <div class="col-lg">leave Type</div>
+                            <div class="col-lg fw-bold text-model-respon" id="type">Loading...</div>
+                        </div>
+                        <div class="row p-2">
+                            <div class="col-lg">leave Period</div>
+                            <div class="col-lg fw-bold text-model-respon" id="period">Loading...</div>
+                            <input type="hidden" id="totalHIDE" />
+                        </div>
+                        <div class="row p-2">
+                            <div class="col-lg">Attachment</div>
+                            <div class="col-lg fw-bold text-model-respon" id="attch">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row mt-5">
+                    <div class="col-lg">
+                        <button  class="btn btn-success btn-block m-lg-0 m-1 accept"><i class="bi bi-check2-circle"></i> Request Accepted</button>
+                    </div>
+                    <div class="col-lg">
+                        <button  class="btn btn-danger btn-block m-lg-0 m-1 rejected"><i class="bi bi-x-circle"></i> Request Denied</button>
+                    </div>
+                  
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/template-mazer/js-setting/Employee/LeaveResponse.js"></script>
+}

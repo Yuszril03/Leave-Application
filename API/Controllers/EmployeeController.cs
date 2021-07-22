@@ -34,6 +34,30 @@ namespace API.Controllers
 
         }
 
+        [HttpPost("CheckPassword")]
+        public ActionResult CheckPassword(ChangePassword changePassword)
+        {
+            var result = employeeRepository.CheckPassword(changePassword);
+            if (result == 0)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
+        }
+
+        [HttpPost("UpdatePassword")]
+        public ActionResult UpdatePassword(UpdatePassword updatePassword)
+        {
+            var result = employeeRepository.UpdatePassword(updatePassword);
+            if (result == 0)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
+        }
+
         [HttpPost("Register")]
         public ActionResult Register(RegisterVM registerVM)
         {
@@ -54,6 +78,92 @@ namespace API.Controllers
                 return get;
             }
         }
+        [HttpGet("GetAllLeaveEmployee/{nik}")]
+        public ActionResult GetAllLeaveEmployee(string nik)
+        {
+            var get = employeeRepository.GetAllLeaveEmployee(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [HttpGet("GetOneLeaveEmployee/{id}")]
+        public ActionResult GetOneLeaveEmployee(int id)
+        {
+            var get = employeeRepository.GetOneLeaveEmployee(id);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [HttpGet("CheckLeave/{nik}")]
+        public ActionResult CheckLeave(string nik)
+        {
+            var get = employeeRepository.CheckLeave(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [HttpGet("GetEmployeesEachManager/{nik}")]
+        public ActionResult GetEmployeesEachManager(string nik)
+        {
+            var get = employeeRepository.GetEmployeesEachManager(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+        [HttpGet("GetOneEmployeesEachManager/{nik}")]
+        public ActionResult GetOneEmployeesEachManager(string nik)
+        {
+            var get = employeeRepository.GetOneEmployeesEachManager(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+        [HttpGet("GetAccountLEaveEmployee/{nik}")]
+        public ActionResult GetAccountLEaveEmployee(string nik)
+        {
+            var get = employeeRepository.GetAccountLEaveEmployee(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [HttpGet("GetDataStatusLeave/{nik}")]
+        public ActionResult GetDataStatusLeave(string nik)
+        {
+            var get = employeeRepository.GetDataStatusLeave(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [HttpGet("GetDataYearLeave/{nik}")]
+        public ActionResult GetDataYearLeave(string nik)
+        {
+            var get = employeeRepository.GetDataYearLeave(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
         [Authorize(Roles = "Admin, Employee")]
         [HttpGet("GetEmployees")]
         public ActionResult GetEmployees()
