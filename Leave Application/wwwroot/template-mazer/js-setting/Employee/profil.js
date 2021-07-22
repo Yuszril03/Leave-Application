@@ -129,14 +129,20 @@
                 data: obj
             }).done((result) => {
                 var delayInMilliseconds = 1000; //1 second
-
-                setTimeout(function () {
-                    var x = $("#firstnameE").val();
-                    myModal.hide()
-                    $("#namaAtas").html(x)
-                    $('#doneUpdate').show();
-                    onLoadd();
-                }, delayInMilliseconds);
+                $.ajax({
+                    url: "/User/SetName",
+                    type: "POST",
+                    data: obj
+                }).done((jadi) => {
+                    setTimeout(function () {
+                        var x = $("#firstnameE").val() + " " + $("#lastNameE").val();
+                        myModal.hide()
+                        $("#namaAtas").html(x)
+                        $('#doneUpdate').show();
+                        onLoadd();
+                    }, delayInMilliseconds);
+                })
+                
                
             }).fail((error) => {
                 myModal.hide()

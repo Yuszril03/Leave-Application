@@ -2,6 +2,7 @@
 using API.ViewModel;
 using Leave_Application.Repository.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -35,51 +36,91 @@ namespace Leave_Application.Controllers
 
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public IActionResult Employee()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         
         public IActionResult EditEmployee()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public IActionResult Leave()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         
         public IActionResult EditLeave()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         
         public IActionResult LeavesData()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public IActionResult Department()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         
         public IActionResult EditDepartment()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public IActionResult Role()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public IActionResult ResetLeave()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -174,10 +215,10 @@ namespace Leave_Application.Controllers
             return Json(result);
         }
         
-        [HttpPut("Admin/UpdateEmployee/{nik}")]
-        public async Task<JsonResult> UpdateEmployee(Employee employee, string nik)
+        [HttpPut("Admin/UpdateEmployee")]
+        public async Task<JsonResult> UpdateEmployee(Coba employee)
         {
-            var result = await employeeRepository.UpdateEmployee(employee, nik);
+            var result = await employeeRepository.UpdateEmployee(employee);
             return Json(result);
         }
         

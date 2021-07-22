@@ -79,7 +79,7 @@ function Update() {
         ManagerId: ManagerId,
         DepartmentId: DepartmentId
     };
-
+    console.log(obj)
     Swal.fire({
         title: 'Are you sure?',
         text: 'Make sure you fill the right data.',
@@ -92,7 +92,7 @@ function Update() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Admin/UpdateEmployee/' + nik,
+                url: '/Admin/UpdateEmployee/',
                 type: 'put',
                 data: obj,
                 beforeSend: function () {

@@ -101,7 +101,7 @@ namespace Leave_Application.Controllers
             return Json(trueRole);
         }
        
-        [HttpPut("Home/ResetPassword")]
+        [HttpPut("/Home/ResetPassword")]
         public async Task<JsonResult> ResetPassword(ResetPasswordVM resetPasswordVM)
         {
             var result = await accountRepository.ResetPassword(resetPasswordVM);

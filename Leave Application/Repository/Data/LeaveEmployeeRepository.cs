@@ -38,7 +38,7 @@ namespace Leave_Application.Repository.Data
         {
             List<LeaveEmployee> entities = new List<LeaveEmployee>();
 
-            using (var response = await httpClient.GetAsync(request + "/GetLeaveEmployees/" + id))
+            using (var response = await httpClient.GetAsync(request + "GetLeaveEmployees/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<List<LeaveEmployee>>(apiResponse);

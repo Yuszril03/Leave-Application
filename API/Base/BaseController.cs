@@ -58,11 +58,11 @@ namespace API.Base
             var insert = repository.Insert(entity);
             if (insert > 0)
             {
-                return Ok(new { status = HttpStatusCode.OK, result = insert, message = "Berhasil tersimpan" });
+                return Ok(new { status = HttpStatusCode.OK, result = insert, message = "Saved successfully" });
             }
             else
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = insert, message = "Gagal tersimpan" });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = insert, message = "Failed to save" });
             }
         }
         [HttpDelete("{key}")]
@@ -73,11 +73,11 @@ namespace API.Base
             var delete = repository.Delete(key);
             if (delete > 0)
             {
-                return Ok(new { status = HttpStatusCode.OK, result = delete, message = "Berhasil terhapus" });
+                return Ok(new { status = HttpStatusCode.OK, result = delete, message = "Deleted successfully" });
             }
             else
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = delete, message = "Gagal terhapus" });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = delete, message = "Failed to delete" });
             }
         }
         [HttpPut]
@@ -87,11 +87,11 @@ namespace API.Base
             var update = repository.Update(entity, key);
             if (update > 0)
             {
-                return Ok(new { status = HttpStatusCode.OK, result = update, message = "Berhasil diperbarui" });
+                return Ok(new { status = HttpStatusCode.OK, result = update, message = "Updated successfully" });
             }
             else
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = update, message = "Gagal diperbarui" });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = update, message = "Failed to update" });
             }
         }
     }

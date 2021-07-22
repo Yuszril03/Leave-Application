@@ -1,5 +1,6 @@
 ﻿using API.ViewModel;
 using Leave_Application.Repository.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Leave_Application.Controllers
 {
+    [Authorize(Roles = "Employee, Manager")]
     public class UserController : Controller
     {
         private readonly EmployeeRepository employeeRepository;
@@ -143,6 +145,13 @@ namespace Leave_Application.Controllers
         {
             var result = await employeeRepository.GetAllLeaveEmployee(nik);
             return Json(result);
+        }
+
+        [HttpPost("User/SetName")]
+        public JsonResult SetName(Coba entity)
+        {
+            HttpContext.Session.SetString("Name", entity.FirstName+" "+entity.LastName);
+            return Json(entity);
         }
 
         [HttpGet("User/GetOneLeaveEmployee/{id}")]

@@ -1,11 +1,12 @@
 ﻿using API.Models;
-using Leave_Application.Base;
 using API.ViewModel;
+using Leave_Application.Base;
 using Leave_Application.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -86,14 +87,14 @@ namespace Leave_Application.Repository.Data
             return entities;
         }
 
-        public async Task<List<RegisterVM>> GetOneEmployeesEachManager(string nik)
+        public async Task<List<Leave_Application.ViewModel.RegisterVM>> GetOneEmployeesEachManager(string nik)
         {
-            List<RegisterVM> entities = new List<RegisterVM>();
+            List<Leave_Application.ViewModel.RegisterVM> entities = new List<Leave_Application.ViewModel.RegisterVM>();
 
             using (var response = await httpClient.GetAsync(request + "GetOneEmployeesEachManager/" + nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Leave_Application.ViewModel.RegisterVM>>(apiResponse);
             }
             return entities;
         }
@@ -213,10 +214,10 @@ namespace Leave_Application.Repository.Data
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
         
-        public async Task<ResponseVM> UpdateEmployee(Employee employee, string nik)
+        public async Task<ResponseVM> UpdateEmployee(Coba employee)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
-            var result = await httpClient.PutAsync(request + nik, content);
+            var result = await httpClient.PutAsync(request, content);
             string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
