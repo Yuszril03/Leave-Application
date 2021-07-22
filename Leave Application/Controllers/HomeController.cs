@@ -52,6 +52,7 @@ namespace Leave_Application.Controllers
             }
             HttpContext.Session.SetString("JWToken", jwtToken.Token);
             HttpContext.Session.SetString("Name", homeRepository.JwtName(jwtToken.Token));
+
             HttpContext.Session.SetString("NIK", homeRepository.JwtNIK(jwtToken.Token));
             var role = homeRepository.JwtRole(jwtToken.Token);
             string trueRole = "";
@@ -91,11 +92,13 @@ namespace Leave_Application.Controllers
                     trueRole = "Employee";
                     HttpContext.Session.SetString("Role", trueRole);
                 }
+                
             }
-                    return RedirectToAction("Index", "User");
+                  
 
-
+            return Json(trueRole);
         }
+       
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();

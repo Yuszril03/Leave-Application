@@ -1,11 +1,18 @@
 ﻿using API.Models;
+
 using Leave_Application.Base;
 using Leave_Application.ViewModel;
+
+using API.ViewModel;
+using Leave_Application.Base;
+using Leave_Application.Models;
+
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -29,6 +36,7 @@ namespace Leave_Application.Repository.Data
             {
                 BaseAddress = new Uri(address.link)
             };
+
             //JWT
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
@@ -52,10 +60,16 @@ namespace Leave_Application.Repository.Data
         public async Task<List<RegisterVM>> GetProfil()
         {
             List<RegisterVM> entities = new List<RegisterVM>();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
+        }
+        public async Task<List<Employees>> GetEmployees()
+        {
+            List<Employees> entities = new List<Employees>();
 
             using (var response = await httpClient.GetAsync(request + "GetEmployees/"))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
+
                 entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
             }
             return entities;
@@ -115,6 +129,9 @@ namespace Leave_Application.Repository.Data
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<List<ChartDonat>>(apiResponse);
+
+                entities = JsonConvert.DeserializeObject<List<Employees>>(apiResponse);
+
             }
             return entities;
         }
@@ -166,7 +183,17 @@ namespace Leave_Application.Repository.Data
             }
             return entities;
         }
+         public async Task<ResponseVM> InsertEmployee(RegisterVM registerVM)
+        {
+            string apiResponse = null;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var result = await httpClient.PostAsync(request + "Register/", content);
+            apiResponse = await result.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
+        }
 
     }
-
+       
 }
+
+

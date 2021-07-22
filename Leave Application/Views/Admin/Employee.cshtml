@@ -1,0 +1,181 @@
+﻿@{
+    ViewData["Title"] = "Leave Application Admin Page";
+    Layout = "_AdminLayout";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-2 text-gray-800">Data Karyawan</h1>
+    <button class="d-none d-sm-inline-block btn btn-success btn-icon-split shadow-sm" id="buttonRegistrasi" data-toggle="modal" data-target="#registerModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">Tambah Data Karyawan</span>
+    </button>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>NIK</th>
+                        <th>Nama</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Email</th>
+                        <th>No. Telf.</th>
+                        <th>Departemen</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="registerModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Register</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="formRegist" novalidate>
+                    <div class="form-group">
+                        <label for="nik" class="col-form-label">NIK</label>
+                        <input type="number" class="form-control" id="nik" required>
+                        <div class="valid-feedback">
+                            Sudah benar!
+                        </div>
+                        <div class="invalid-feedback">
+                            Kolom harus diisi!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="firstName" class="col-form-label">Nama Depan</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                                <div class="valid-feedback">
+                                    Sudah benar!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Kolom harus diisi!
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="lastName" class="col-form-label">Nama Belakang</label>
+                                <input type="text" class="form-control" id="lastName" required>
+                                <div class="valid-feedback">
+                                    Sudah benar!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Kolom harus diisi!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="labelRadio">Jenis Kelamin</label>
+                        <div class="row ml-1" id="labelRadio">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="male" name="gender" value="0" required>
+                                <label class="custom-control-label" for="male">Pria</label>
+                            </div>
+                            <div class="custom-control custom-radio ml-3">
+                                <input type="radio" class="custom-control-input" id="female" name="gender" value="1" required>
+                                <label class="custom-control-label" for="female">Wanita</label>
+                                <div class="valid-feedback">
+                                    Sudah benar!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Pilihan harus di pilih!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Alamat Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                        <div class="valid-feedback">
+                            Sudah benar!
+                        </div>
+                        <div class="invalid-feedback">
+                            Masukkan email harus benar!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class="col-form-label">Nomor Telfon</label>
+                        <input type="number" class="form-control" id="phoneNumber" required>
+                        <div class="valid-feedback">
+                            Sudah benar!
+                        </div>
+                        <div class="invalid-feedback">
+                            Kolom harus diisi!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="department" class="col-form-label">Departemen</label>
+                        <select id="department" class="custom-select" required>
+                            <option selected disabled value="">-Pilih Departemen-</option>
+                            <option value="1">Production</option>
+                            <option value="2">Marketing</option>
+                        </select>
+                        <div class="valid-feedback">
+                            Sudah benar!
+                        </div>
+                        <div class="invalid-feedback">
+                            Pilihan harus di pilih!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="department" class="col-form-label">Pilih Role</label>
+                        <div class="form-check-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="form-check-input custom-control-input" id="checkKaryawan" name="select" required>
+                            <label class="form-check-label custom-control-label" for="checkKaryawan">Karyawan</label>
+                        </div>
+                        <div class="form-check-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="form-check-input custom-control-input" id="checkManajer" name="select" required>
+                            <label class="form-check-label custom-control-label" for="checkManajer">Manajer</label>
+                        </div>
+                        <div class="form-check-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="form-check-input custom-control-input" id="checkAdmin" name="select" required>
+                            <label class="form-check-label custom-control-label" for="checkAdmin">Admin</label>
+                            <div class="valid-feedback">
+                                Sudah benar!
+                            </div>
+                            <div class="invalid-feedback">
+                                Pilih salah satu!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Kata Sandi</label>
+                        <input type="password" class="form-control" id="password" minlength="8" required>
+                        <div class="valid-feedback">
+                            Sudah benar!
+                        </div>
+                        <div class="invalid-feedback">
+                            Kata Sandi harus berisi 8-20 karakter
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-outline-success" id="btnRegist" type="submit">
+                        Register
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/employee.js" asp-append-version="true"></script>
+}

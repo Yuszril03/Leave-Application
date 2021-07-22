@@ -25,6 +25,7 @@ namespace API.Utils
             string roles = string.Join(",", role);
             claims.Add(new Claim("Name",name));
             claims.Add(new Claim("NIK", nik));
+
             foreach (var item in role)
             {
                 claims.Add(new Claim("role", item));
