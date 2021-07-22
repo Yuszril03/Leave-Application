@@ -82,6 +82,11 @@ namespace API.Repository
 
                 //var entry = myContext.Entry(e);
                 //entry.State = EntityState.Modified;
+                var data = entities.Find(key);
+                if (data != null)
+                {
+                    myContext.Entry(data).State = EntityState.Detached;
+                }
                 myContext.Entry(e).State = EntityState.Modified;
                 var ok = myContext.SaveChanges();
                 return ok;

@@ -29,21 +29,21 @@
     <script>
         let d = new Date();
         let hours = d.getHours();
-        let status = "Selamat Datang";
+        let status = "Welcome";
         if (hours >= 0) {
-            status = "Selamat Datang";
+            status = "Welcome";
         }
         if (hours > 5) {
-            status = "Selamat Pagi";
+            status = "Good Morning";
         }
         if (hours > 11) {
-            status = "Selamat Siang";
+            status = "Good Afternoon";
         }
         if (hours > 14) {
-            status = "Selamat Sore";
+            status = "Good Evening";
         }
         if (hours > 18) {
-            status = "Selamat Malam";
+            status = "Good Night";
         }
         document.getElementById("mainTitle").innerHTML = status;
     </script>

@@ -56,5 +56,29 @@ namespace API.Controllers
             }
             return BadRequest(get);
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetManagers")]
+        public ActionResult GetManagers()
+        {
+            var get = employeeRepository.GetManagers();
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetEmployee/{nik}")]
+        public ActionResult GetEmployee(string nik)
+        {
+            var get = employeeRepository.GetEmployee(nik);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
     }
 }

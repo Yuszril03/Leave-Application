@@ -1,4 +1,8 @@
-﻿$.ajax({
+﻿const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const nik = urlParams.get('nik');
+
+$.ajax({
     url: '/Admin/GetDepartments'
 }).done((result) => {
     let text = '<option selected disabled value="">-Choose Department-</option>';
@@ -19,52 +23,24 @@ $.ajax({
     $('#manager').selectpicker('refresh');
 });
 
-//Datatable
-$(document).ready(function () {
-    let table = $('#dataTable').DataTable({
-        responsive: true,
-        'ajax': {
-            url: '/Admin/GetEmployees',
-            dataSrc: ''
-        },
-        'columns': [
-            { 'data': 'nik' },
-            {
-                'data': null,
-                'render': function (data, type, row) {
-                    let name = `${row['firstName']} ${row['lastName']}`;
-                    return name;
-                }
-            },
-            { 'data': 'gender' },
-            { 'data': 'email' },
-            {
-                'data': null,
-                'render': function (data, type, row) {
-                    let phone = row['phoneNumber'].substring(0, 1);
-                    if (phone === '0') {
-                        let number = row['phoneNumber'].slice(1);
-                        return `+62${number}`;
-                    }
-                    else {
-                        return `${row['phoneNumber']}`;
-                    }
-                }
-            },
-            { 'data': 'departmentName' },
-            {
-                'bSortable': false,
-                'data': null,
-                'render': function (data, type, row) {
-                    return `<a class='btn btn-outline-secondary' href='EditEmployee/?nik=${row['nik']}'>Edit</a>`;
-                }
-            }
-        ]
+$(window).on('load', function () {
+    $.ajax({
+        url: '/Admin/GetEmployee/' + nik,
+    }).done((result) => {
+        $('#nik').val(result[0].nik);
+        $('#firstName').val(result[0].firstName);
+        $('#lastName').val(result[0].lastName);
+        if (result[0].gender === 0) {
+            document.getElementById('male').checked = true;
+        }
+        else {
+            document.getElementById('female').checked = true;
+        }
+        $('#email').val(result[0].email);
+        $('#phoneNumber').val(result[0].phoneNumber);
+        $('#manager').selectpicker('val', `${result[0].managerId}`);
+        $('#department').prop('selectedIndex', result[0].departmentId);
     });
-
-    setInterval(function () {
-        table.ajax.reload(null, false);
-    }, 3000);
 });
 
 window.addEventListener('load', () => {
@@ -74,17 +50,16 @@ window.addEventListener('load', () => {
             if (!form.checkValidity()) {
                 evt.preventDefault();
                 evt.stopPropagation();
-            }
-            else {
+            } else {
                 evt.preventDefault();
-                Insert();
+                Update();
             }
             form.classList.add('was-validated');
         });
     }
 });
 
-function Insert() {
+function Update() {
     let NIK = $("#nik").val();
     let FirstName = $("#firstName").val();
     let LastName = $("#lastName").val();
@@ -93,9 +68,6 @@ function Insert() {
     let PhoneNumber = $("#phoneNumber").val();
     let ManagerId = $("#manager").val();
     let DepartmentId = parseInt($("#department").val());
-    let Password = $("#password").val();
-    let LeaveQuota = 12;
-    let LeaveStatus = 1;
 
     let obj = {
         Nik: NIK,
@@ -105,10 +77,7 @@ function Insert() {
         Gender: Gender,
         PhoneNumber: PhoneNumber,
         ManagerId: ManagerId,
-        DepartmentId: DepartmentId,
-        Password: Password,
-        LeaveQuota: LeaveQuota,
-        LeaveStatus: LeaveStatus
+        DepartmentId: DepartmentId
     };
 
     Swal.fire({
@@ -123,17 +92,15 @@ function Insert() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Admin/Register',
-                type: 'post',
+                url: '/Admin/UpdateEmployee/' + nik,
+                type: 'put',
                 data: obj,
                 beforeSend: function () {
-                    document.getElementById('btnRegist').classList.add('disabled');
-                    document.getElementById('btnRegist').innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                    document.getElementById('btnUpdate').classList.add('disabled');
                 }
             }).done((result) => {
-                document.getElementById('btnRegist').innerHTML = 'Regist';
-                document.getElementById('btnRegist').classList.remove('disabled');
-                if (result.result > 1) {
+                document.getElementById('btnUpdate').classList.remove('disabled');
+                if (result.result > 0) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success!',
@@ -142,15 +109,8 @@ function Insert() {
                         if (result.isConfirmed) {
                             $('.modal').hide();
                             $('.modal-backdrop').remove();
-                            document.getElementById('formRegist').reset();
+                            window.location = "/Admin/Employee";
                         }
-                    });
-                }
-                else if (result.result === 1) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Fail!',
-                        text: `${result.message}`
                     });
                 }
                 else {

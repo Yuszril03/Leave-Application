@@ -16,10 +16,12 @@ namespace Leave_Application.Controllers
     public class HomeController : Controller
     {
         private readonly HomeRepository homeRepository;
+        private readonly AccountRepository accountRepository;
 
-        public HomeController(HomeRepository homeRepository)
+        public HomeController(HomeRepository homeRepository, AccountRepository accountRepository)
         {
             this.homeRepository = homeRepository;
+            this.accountRepository = accountRepository;
         }
 
         public IActionResult Index()
@@ -43,6 +45,13 @@ namespace Leave_Application.Controllers
             HttpContext.Session.SetString("JWToken", jwtToken.Token);
             HttpContext.Session.SetString("Name", homeRepository.JwtName(jwtToken.Token));
             return Json(jwtToken);
+        }
+
+        [HttpPut("Home/ResetPassword")]
+        public async Task<JsonResult> ResetPassword(ResetPasswordVM resetPasswordVM)
+        {
+            var result = await accountRepository.ResetPassword(resetPasswordVM);
+            return Json(result);
         }
 
         public IActionResult Logout()

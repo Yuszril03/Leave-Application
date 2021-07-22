@@ -42,13 +42,44 @@ namespace Leave_Application.Repository.Data
             }
             return entities;
         }
+        
+        public async Task<List<Employees>> GetManagers()
+        {
+            List<Employees> entities = new List<Employees>();
+
+            using (var response = await httpClient.GetAsync(request + "GetManagers/"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<Employees>>(apiResponse);
+            }
+            return entities;
+        }
+        
+        public async Task<List<Employee>> GetEmployee(string nik)
+        {
+            List<Employee> entities = new List<Employee>();
+
+            using (var response = await httpClient.GetAsync(request + "GetEmployee/" + nik))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<Employee>>(apiResponse);
+            }
+            return entities;
+        }
 
         public async Task<ResponseVM> InsertEmployee(RegisterVM registerVM)
         {
-            string apiResponse = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
             var result = await httpClient.PostAsync(request + "Register/", content);
-            apiResponse = await result.Content.ReadAsStringAsync();
+            string apiResponse = await result.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
+        }
+        
+        public async Task<ResponseVM> UpdateEmployee(Employee employee, string nik)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+            var result = await httpClient.PutAsync(request + nik, content);
+            string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
     }

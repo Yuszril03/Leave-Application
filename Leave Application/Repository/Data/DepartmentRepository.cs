@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace Leave_Application.Repository.Data
 {
-    public class LeaveRepository : GeneralRepository<Leave, string>
+    public class DepartmentRepository : GeneralRepository<Department, string>
     {
         private readonly Address address;
         private readonly string request;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly HttpClient httpClient;
-        public LeaveRepository(Address address, string request = "Leave") : base(address, request)
+        public DepartmentRepository(Address address, string request = "Department") : base(address, request)
         {
             this.address = address;
             this.request = request;
@@ -30,41 +30,41 @@ namespace Leave_Application.Repository.Data
             };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
-        public async Task<List<Leave>> GetLeaves()
+        public async Task<List<Department>> GetDepartments()
         {
-            List<Leave> entities = new List<Leave>();
+            List<Department> entities = new List<Department>();
 
             using (var response = await httpClient.GetAsync(request))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<Leave>>(apiResponse);
+                entities = JsonConvert.DeserializeObject<List<Department>>(apiResponse);
             }
             return entities;
         }
 
-        public async Task<Leave> GetLeave(int id)
+        public async Task<Department> GetDepartment(int id)
         {
-            Leave entities = new Leave();
+            Department entities = new Department();
 
             using (var response = await httpClient.GetAsync(request + "/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<Leave>(apiResponse);
+                entities = JsonConvert.DeserializeObject<Department>(apiResponse);
             }
             return entities;
         }
 
-        public async Task<ResponseVM> InsertLeave(Leave leave)
+        public async Task<ResponseVM> InsertDepartment(Department department)
         {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(leave), Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(JsonConvert.SerializeObject(department), Encoding.UTF8, "application/json");
             var result = await httpClient.PostAsync(request, content);
             string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);
         }
 
-        public async Task<ResponseVM> UpdateLeave(Leave leave, int id)
+        public async Task<ResponseVM> UpdateDepartment(Department department, int id)
         {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(leave), Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(JsonConvert.SerializeObject(department), Encoding.UTF8, "application/json");
             var result = await httpClient.PutAsync(request + "/" + id, content);
             string apiResponse = await result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseVM>(apiResponse);

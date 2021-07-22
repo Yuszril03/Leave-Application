@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Models
 {
@@ -14,7 +13,6 @@ namespace API.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        [JsonConverter(typeof(StringEnumConverter))]
         public Gender Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string? ManagerId { get; set; }
@@ -23,7 +21,9 @@ namespace API.Models
         public virtual Account Account { get; set; }
         [JsonIgnore]
         public virtual Department Department { get; set; }
+        [JsonIgnore]
         public virtual Employee Manager { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Employee> Employees { get; set; }
     }
 
@@ -31,5 +31,5 @@ namespace API.Models
 
 public enum Gender
 {
-    Pria, Wanita
+    Male, Female
 }

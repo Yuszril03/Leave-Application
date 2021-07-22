@@ -6,8 +6,8 @@
     <div class="masthead-content">
         <div class="container px-5">
             <h1 class="masthead-heading mb-0" id="mainTitle"></h1>
-            <h2 class="masthead-subheading mb-0">Selamat Datang di Aplikasi Cuti</h2>
-            <button class="btn btn-primary btn-xl rounded-pill mt-5" data-toggle="modal" data-target="#loginModal">Masuk</button>
+            <h2 class="masthead-subheading mb-0">Welcome to Leave Application</h2>
+            <button class="btn btn-primary btn-xl rounded-pill mt-5" data-toggle="modal" data-target="#loginModal">Login</button>
         </div>
     </div>
 </header>
@@ -16,7 +16,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Masuk</h5>
+                <h5 class="modal-title">Login</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -35,16 +35,56 @@
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-form-label">Password</label>
-                        <input type="password" class="form-control" id="password" minlength="8" required>
+                        <div class="input-group" id="show_hide_password">
+                            <input type="password" class="form-control" id="password" minlength="8" required>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true" id="eyeIcon"></i></a>
+                                </div>
+                            </div>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Your password must be 8-40 characters long
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="#" data-toggle="modal" data-target="#forgotModal">Forgot Password?</a>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-primary" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="forgotModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Forgot Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation-forgot" novalidate>
+                    <div class="form-group">
+                        <label for="validate" class="col-form-label">Enter Recovery Email</label>
+                        <input type="email" class="form-control" id="email" required>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                         <div class="invalid-feedback">
-                            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                            Please fill the field!
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button class="btn btn-outline-primary" type="submit">Masuk</button>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-primary" type="submit">Send</button>
                     </div>
                 </form>
             </div>

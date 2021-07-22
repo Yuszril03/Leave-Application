@@ -52,6 +52,9 @@ namespace Leave_Application
             services.AddScoped<HomeRepository>();
             services.AddScoped<EmployeeRepository>();
             services.AddScoped<LeaveRepository>();
+            services.AddScoped<DepartmentRepository>();
+            services.AddScoped<LeaveEmployeeRepository>();
+            services.AddScoped<AccountRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

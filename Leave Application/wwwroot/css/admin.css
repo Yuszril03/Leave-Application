@@ -1,0 +1,19 @@
+﻿.bg-light {
+    background: #eef0f4;
+}
+
+.choices__list--dropdown .choices__item--selectable {
+    padding-right: 1rem;
+}
+
+.choices__list--single {
+    padding: 0;
+}
+
+.choices[data-type*=select-one]:after {
+    right: 1.5rem;
+}
+
+.shadow {
+    box-shadow: 0.3rem 0.3rem 1rem rgba(178, 200, 244, 0.23);
+}
