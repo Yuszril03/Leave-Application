@@ -71,11 +71,11 @@ function Login() {
                 if (response != null) {
                     if (response == "Admin") {
                         window.location = "/Admin/Index";
-                    } else if (response == "Employee" || response == "Manager")
-                    {
-                        window.location = "/User/Index";
-                        
-                        }
+                    } else if (response == "Employee" || response == "Manager") {
+                        window.location = "/User";
+                    } else {
+                        window.location = "/Home/Index";
+                    }
                 }
                 else {
                     Swal.fire({
