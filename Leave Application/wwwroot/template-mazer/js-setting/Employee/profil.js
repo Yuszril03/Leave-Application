@@ -27,7 +27,12 @@
             }
 
             $("#depV").html(result[0].departmentName)
-            $("#cutiV").html(result[0].leaveQuota)
+            if (result[0].leaveQuota <= 0) {
+                $("#cutiV").html("0")
+            } else {
+
+             $("#cutiV").html(result[0].leaveQuota)
+            }
             if (result[0].leaveStatus == 1) {
                 $("#statusV").html('<span class="badge bg-success">Work</span>')
             } else {

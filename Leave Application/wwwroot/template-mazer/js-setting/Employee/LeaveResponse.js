@@ -135,7 +135,12 @@
             $("#nikUSer").val(result[0].nik);
             $("#totalHIDE").val(result[0].totalDays);
             $("#period").html(formatDate(splitTGL(result[0].startDate)) + " - " + formatDate(splitTGL(result[0].endDate)));
+            if (result[0].attachment == null) {
+                $("#attch").html('<span class="badge bg-danger">No Attachment</span>');
+            } else {
+
             $("#attch").html('<a href="/User/DownloadFile/' + result[0].attachment + '" target="_blank" class="btn btn-primary btn-sm"> <i class="bi bi-cloud-arrow-down-fill"></i> Download</button>');
+            }
         })
     })
 

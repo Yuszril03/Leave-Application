@@ -57,7 +57,7 @@
                             </a>
                         </li>
 
-                        @{ if (@Context.Session.GetString("Role") == "Manager")
+                        @{ if (@Context.Session.GetString("Role") == "Manager" || @Context.Session.GetString("RoleSecond") == "Manager")
                             {
                                 <li class="sidebar-item @(ViewData["type"].ToString() == "Data" ? "active" : "")">
                                     <a href="/User/LeaveEmployees" class='sidebar-link'>
@@ -163,6 +163,17 @@
                                             Change Password
                                         </a>
                                     </li>
+                                    @{
+                                        if (@Context.Session.GetString("Role") == "Admin")
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="/Admin/Index">
+                                                    <i class="bi bi-arrow-left-right me-2"></i>
+                                                    Switch Admin
+                                                </a>
+                                            </li>
+                                        }
+                                    }
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>

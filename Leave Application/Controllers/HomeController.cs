@@ -58,6 +58,7 @@ namespace Leave_Application.Controllers
             HttpContext.Session.SetString("NIK", homeRepository.JwtNIK(jwtToken.Token));
             var role = homeRepository.JwtRole(jwtToken.Token);
             string trueRole = "";
+            string secondRole = "";
             int a = 0; int b = 0;
             int c = 0;
             foreach (var item in role)
@@ -81,22 +82,39 @@ namespace Leave_Application.Controllers
                 if (a == 1 && b == 0)
                 {
                     trueRole = "Manager";
-                    HttpContext.Session.SetString("Role", trueRole);
+                    //HttpContext.Session.SetString("Role", trueRole);
                 }
                 else if (a == 1 && b == 1)
                 {
                     trueRole = "Manager";
-                    HttpContext.Session.SetString("Role", trueRole);
+                    //HttpContext.Session.SetString("Role", trueRole);
                 }
 
                 else if (a == 0 && b == 1)
                 {
                     trueRole = "Employee";
-                    HttpContext.Session.SetString("Role", trueRole);
+                    //HttpContext.Session.SetString("Role", trueRole);
                 }
-                
+
             }
-                  
+            else
+            {
+                if(c==1 && a == 1 && b == 0)
+                {
+                    secondRole = "Manager";
+                }
+                else if (c == 1 && a == 1 && b == 1)
+                {
+                    secondRole = "Manager";
+                }
+                else if (c == 1 && a == 0 && b == 1)
+                {
+                    secondRole = "Employee";
+                }
+            }
+            HttpContext.Session.SetString("Role", trueRole);
+            HttpContext.Session.SetString("RoleSecond", secondRole);
+
 
             return Json(trueRole);
         }

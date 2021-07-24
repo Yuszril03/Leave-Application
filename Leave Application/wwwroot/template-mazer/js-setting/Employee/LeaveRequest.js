@@ -4,18 +4,20 @@ $("#alertLeaveSuccess").hide()
 //Submit
 $("#submit").click(function () {
     if ($("#typeLeaveTemp").val() == "Normal Leave") {
-        let tempIdNormal = ["typeLeave", "tglawal", "tglakhir", "uploadFilee"]
+        //let tempIdNormal = ["typeLeave", "tglawal", "tglakhir", "uploadFilee"]
+        let tempIdNormal = ["typeLeave", "tglawal", "tglakhir"]
         console.log($("#tglakhir").val())
         countNOrmaly = 0;
         for (n in tempIdNormal) {
-            if (tempIdNormal[n] == "uploadFilee") {
-                if ($("#uploadFilee").val() == "") {
-                    $("#alertDoc").show()
-                    countNOrmaly++;
-                } else {
-                    $("#alertDoc").hide()
-                }
-            } else if ($("#" + tempIdNormal[n]).val() == "") {
+            //if (tempIdNormal[n] == "uploadFilee") {
+            //    if ($("#uploadFilee").val() == "") {
+            //        $("#alertDoc").show()
+            //        countNOrmaly++;
+            //    } else {
+            //        $("#alertDoc").hide()
+            //    }
+            //} else
+            if ($("#" + tempIdNormal[n]).val() == "") {
                 $("#" + tempIdNormal[n]).addClass("is-invalid")
                 countNOrmaly++;
             } else {
@@ -23,811 +25,1587 @@ $("#submit").click(function () {
             }
 
             if (countNOrmaly == 0) {
-                var fileUpload = $("#uploadFilee").get(0);
 
-                var files = document.getElementById("uploadFilee").files[0];
+                if ($("#uploadFilee").val() != "") {
+                    var fileUpload = $("#uploadFilee").get(0);
 
-                var data2 = new FormData();
+                    var files = document.getElementById("uploadFilee").files[0];
 
-                data2.append("FileUpload", files);
+                    var data2 = new FormData();
 
-                $.ajax({
-                    url: "/User/UploadFile",
-                    type: "POST",
-                    data: data2,
-                    dataType: 'json',
-                    contentType: false,
-                    processData: false,
-                }).done((result) => {
-                    if (result != null) {
-                        $.ajax({
-                            url: "/User/GetCalendar"
-                        }).done((hasil2) => {
-                            var tgl = new Date($("#tglawal").val());
-                            var tgl2 = new Date($("#tglakhir").val());
-                            var selisih = Math.abs(tgl - tgl2) / 86400000;
-                            var d = tgl.getDate();
-                            var m = tgl.getMonth() + 1;
-                            var y = tgl.getFullYear();
-                            var count = 0;
-                            var hariLibur = 0;
-                            var z = 1;
-                            for (var i = 0; i <= selisih; i++) {
+                    data2.append("FileUpload", files);
 
-                                if (m == 1) {
-                                    var feb = hasil2.data.monthly.januari;
-                                    if (d <= feb.daysCount) {
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        //var tgl3 = y + "-" + m + "-" + (d++);
-                                        var date3 = new Date(tgl3);
-                                        if (date3.getDay() != 6 && date3.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.januari.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
+                    $.ajax({
+                        url: "/User/UploadFile",
+                        type: "POST",
+                        data: data2,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                    }).done((result) => {
+                        if (result != null) {
+                            $.ajax({
+                                url: "/User/GetCalendar"
+                            }).done((hasil2) => {
+                                var tgl = new Date($("#tglawal").val());
+                                var tgl2 = new Date($("#tglakhir").val());
+                                var selisih = Math.abs(tgl - tgl2) / 86400000;
+                                var d = tgl.getDate();
+                                var m = tgl.getMonth() + 1;
+                                var y = tgl.getFullYear();
+                                var count = 0;
+                                var hariLibur = 0;
+                                var z = 1;
+                                for (var i = 0; i <= selisih; i++) {
+
+                                    if (m == 1) {
+                                        var feb = hasil2.data.monthly.januari;
+                                        if (d <= feb.daysCount) {
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
                                                 }
-
-                                            }
-                                        }
-
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
                                             } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.februari.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
                                                 }
+                                            }
+                                            //var tgl3 = y + "-" + m + "-" + (d++);
+                                            var date3 = new Date(tgl3);
+                                            if (date3.getDay() != 6 && date3.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.januari.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
 
+                                                }
+                                            }
+
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.februari.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    } else if (m == 2) {
+                                        var feb = hasil2.data.monthly.februari;
+                                        if (d <= feb.daysCount) {
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            //var tgl3 = y + "-" + m + "-" + (d++);
+                                            var date3 = new Date(tgl3);
+                                            if (date3.getDay() != 6 && date3.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.februari.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.maret.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
                                             }
                                         }
                                     }
-                                } else if (m == 2) {
-                                    var feb = hasil2.data.monthly.februari;
-                                    if (d <= feb.daysCount) {
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
+                                    else if (m == 3) {
+                                        var mart = hasil2.data.monthly.maret;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
                                             } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.maret.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
                                             }
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        //var tgl3 = y + "-" + m + "-" + (d++);
-                                        var date3 = new Date(tgl3);
-                                        if (date3.getDay() != 6 && date3.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.februari.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
                                                 }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.april.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
 
+                                                }
                                             }
                                         }
 
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
+                                    }
+                                    else if (m == 4) {
+                                        var mart = hasil2.data.monthly.april;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
                                             } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.april.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
                                             }
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
                                             } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.mei.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
                                             }
                                         }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.maret.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
+                                    }
+                                    else if (m == 5) {
+                                        var mart = hasil2.data.monthly.mei;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
                                                 }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.mei.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
 
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.juni.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 6) {
+                                        var mart = hasil2.data.monthly.juni;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.juni.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.juli.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 7) {
+                                        var mart = hasil2.data.monthly.juli;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.juli.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 8) {
+                                        var mart = hasil2.data.monthly.agustus;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.september.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 9) {
+                                        var mart = hasil2.data.monthly.september;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.september.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 10) {
+                                        var mart = hasil2.data.monthly.oktober;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 11) {
+                                        var mart = hasil2.data.monthly.november;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.november.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(++m)
+                                            console.log(d = 1)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.desember.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (m == 12) {
+                                        var mart = hasil2.data.monthly.desember;
+                                        if (d <= mart.daysCount) {
+                                            //var tgl4 = y + "-" + m + "-" + (d++);
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.desember.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
+                                            console.log(m = 1)
+                                            console.log(d = 1)
+                                            console.log(++y)
+                                            var tgl3 = "";
+                                            if (m < 10) {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-0" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-0" + m + "-" + (d++);
+                                                }
+                                            } else {
+                                                if (d < 10) {
+                                                    tgl3 = y + "-" + m + "-0" + (d++);
+                                                } else {
+                                                    tgl3 = y + "-" + m + "-" + (d++);
+                                                }
+                                            }
+                                            var date4 = new Date(tgl3);
+                                            if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                                var holiday = hasil2.data.monthly.januari.holiday.data;
+                                                for (h in holiday) {
+                                                    if (tgl3 != holiday[h].date) {
+                                                        count++;
+                                                    }
+
+                                                }
                                             }
                                         }
                                     }
                                 }
-                                else if (m == 3) {
-                                    var mart = hasil2.data.monthly.maret;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.maret.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
 
-                                            }
+                                $.ajax({
+                                    url: "/Account/Get/" + $("#nikHidden").val()
+                                }).done((hasilAccount) => {
+                                    var upAccount = new Object();
+                                    upAccount.NIK = hasilAccount.nik;
+                                    upAccount.Password = hasilAccount.password;
+                                    upAccount.LeaveStatus = hasilAccount.leaveStatus;
+                                    upAccount.LeaveQuota = (hasilAccount.leaveQuota - count);
+                                    console.log(upAccount);
+                                    $.ajax({
+                                        url: "/Account/Put",
+                                        type: "PUT",
+                                        data: upAccount
+                                    }).done((hasilUpdateAC) => {
+                                        var object = new Object();
+                                        object.StartDate = $("#tglawal").val()
+                                        object.EndDate = $("#tglakhir").val()
+                                        object.TotalDays = count
+                                        object.Attachment = result
+                                        object.Status = 2
+                                        object.NIK = $("#nikHidden").val()
+                                        object.LeaveId = parseInt($("#typeLeave").val())
+                                        $.ajax({
+                                            url: "/LeaveEmployee/Post",
+                                            type: "POST",
+                                            data: object
+                                        }).done((berhasil) => {
+                                            removeUpload();
+                                            $("#typeLeave").val("");
+                                            $(".tglawal").hide()
+                                            $(".tglawal").val("")
+
+                                            $(".tglawalTemp").show()
+                                            //$(".tglakhir").hide()
+                                            $(".tglakhir").val("")
+
+                                            $('#alertLeaveSuccess').fadeIn("slow");
+                                            setTimeout(function () {
+                                                $('#alertLeaveSuccess').fadeOut("slow");
+                                            }, 5000)
+                                        }).fail((gagal) => {
+                                            removeUpload();
+                                            $("#typeLeave").val("");
+                                            $(".tglawal").hide()
+                                            $(".tglawal").val("")
+
+                                            $(".tglakhir").hide()
+                                            $(".tglakhir").val("")
+                                            $(".tglawalTemp").show()
+
+                                            $("#alertLeave").html(" Sorry, your leave request cannot be accepted!")
+                                            $("#alertLeave").fadeIn("slow")
+                                            setTimeout(function () {
+                                                $('#alertLeave').fadeOut("slow");
+                                            }, 5000)
+                                        })
+
+                                    })
+                                })
+
+                            }).fail((err) => {
+                                console.log(err)
+                            })
+
+                        }
+                    }).fail((error) => {
+                        console.log("SALAH")
+                    })
+                } else {
+                    $.ajax({
+                        url: "/User/GetCalendar"
+                    }).done((hasil2) => {
+                        var tgl = new Date($("#tglawal").val());
+                        var tgl2 = new Date($("#tglakhir").val());
+                        var selisih = Math.abs(tgl - tgl2) / 86400000;
+                        var d = tgl.getDate();
+                        var m = tgl.getMonth() + 1;
+                        var y = tgl.getFullYear();
+                        var count = 0;
+                        var hariLibur = 0;
+                        var z = 1;
+                        for (var i = 0; i <= selisih; i++) {
+
+                            if (m == 1) {
+                                var feb = hasil2.data.monthly.januari;
+                                if (d <= feb.daysCount) {
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
                                         }
                                     } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
+                                            tgl3 = y + "-" + m + "-" + (d++);
                                         }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.april.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
+                                    }
+                                    //var tgl3 = y + "-" + m + "-" + (d++);
+                                    var date3 = new Date(tgl3);
+                                    if (date3.getDay() != 6 && date3.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.januari.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
                                             }
+
                                         }
                                     }
 
-                                }
-                                else if (m == 4) {
-                                    var mart = hasil2.data.monthly.april;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.april.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
+                                            tgl3 = y + "-0" + m + "-" + (d++);
                                         }
                                     } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
+                                            tgl3 = y + "-" + m + "-" + (d++);
                                         }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.mei.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.februari.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
                                             }
+
                                         }
                                     }
                                 }
-                                else if (m == 5) {
-                                    var mart = hasil2.data.monthly.mei;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
+                            } else if (m == 2) {
+                                var feb = hasil2.data.monthly.februari;
+                                if (d <= feb.daysCount) {
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.mei.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
+                                            tgl3 = y + "-0" + m + "-" + (d++);
                                         }
                                     } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.juni.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
+                                            tgl3 = y + "-" + m + "-" + (d++);
                                         }
                                     }
-                                }
-                                else if (m == 6) {
-                                    var mart = hasil2.data.monthly.juni;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
+                                    //var tgl3 = y + "-" + m + "-" + (d++);
+                                    var date3 = new Date(tgl3);
+                                    if (date3.getDay() != 6 && date3.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.februari.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
                                             }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.juni.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
 
-                                            }
-                                        }
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.juli.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
                                         }
                                     }
-                                }
-                                else if (m == 7) {
-                                    var mart = hasil2.data.monthly.juli;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.juli.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
 
-                                            }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
                                         }
                                     } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
                                         } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.agustus.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
+                                            tgl3 = y + "-" + m + "-" + (d++);
                                         }
                                     }
-                                }
-                                else if (m == 8) {
-                                    var mart = hasil2.data.monthly.agustus;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.maret.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
                                             }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.agustus.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
 
-                                            }
-                                        }
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.september.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (m == 9) {
-                                    var mart = hasil2.data.monthly.september;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.september.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.oktober.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (m == 10) {
-                                    var mart = hasil2.data.monthly.oktober;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.oktober.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.oktober.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (m == 11) {
-                                    var mart = hasil2.data.monthly.november;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.november.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    } else {
-                                        console.log(++m)
-                                        console.log(d = 1)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.desember.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (m == 12) {
-                                    var mart = hasil2.data.monthly.desember;
-                                    if (d <= mart.daysCount) {
-                                        //var tgl4 = y + "-" + m + "-" + (d++);
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.desember.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
-                                        }
-                                    } else {
-                                        console.log(m = 1)
-                                        console.log(d = 1)
-                                        console.log(++y)
-                                        var tgl3 = "";
-                                        if (m < 10) {
-                                            if (d < 10) {
-                                                tgl3 = y + "-0" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-0" + m + "-" + (d++);
-                                            }
-                                        } else {
-                                            if (d < 10) {
-                                                tgl3 = y + "-" + m + "-0" + (d++);
-                                            } else {
-                                                tgl3 = y + "-" + m + "-" + (d++);
-                                            }
-                                        }
-                                        var date4 = new Date(tgl3);
-                                        if (date4.getDay() != 6 && date4.getDay() != 0) {
-                                            var holiday = hasil2.data.monthly.januari.holiday.data;
-                                            for (h in holiday) {
-                                                if (tgl3 != holiday[h].date) {
-                                                    count++;
-                                                }
-
-                                            }
                                         }
                                     }
                                 }
                             }
-                            
+                            else if (m == 3) {
+                                var mart = hasil2.data.monthly.maret;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.maret.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.april.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+
+                            }
+                            else if (m == 4) {
+                                var mart = hasil2.data.monthly.april;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.april.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.mei.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 5) {
+                                var mart = hasil2.data.monthly.mei;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.mei.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.juni.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 6) {
+                                var mart = hasil2.data.monthly.juni;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.juni.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.juli.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 7) {
+                                var mart = hasil2.data.monthly.juli;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.juli.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 8) {
+                                var mart = hasil2.data.monthly.agustus;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.september.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 9) {
+                                var mart = hasil2.data.monthly.september;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.september.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 10) {
+                                var mart = hasil2.data.monthly.oktober;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 11) {
+                                var mart = hasil2.data.monthly.november;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.november.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(++m)
+                                    console.log(d = 1)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.desember.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (m == 12) {
+                                var mart = hasil2.data.monthly.desember;
+                                if (d <= mart.daysCount) {
+                                    //var tgl4 = y + "-" + m + "-" + (d++);
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.desember.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    console.log(m = 1)
+                                    console.log(d = 1)
+                                    console.log(++y)
+                                    var tgl3 = "";
+                                    if (m < 10) {
+                                        if (d < 10) {
+                                            tgl3 = y + "-0" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-0" + m + "-" + (d++);
+                                        }
+                                    } else {
+                                        if (d < 10) {
+                                            tgl3 = y + "-" + m + "-0" + (d++);
+                                        } else {
+                                            tgl3 = y + "-" + m + "-" + (d++);
+                                        }
+                                    }
+                                    var date4 = new Date(tgl3);
+                                    if (date4.getDay() != 6 && date4.getDay() != 0) {
+                                        var holiday = hasil2.data.monthly.januari.holiday.data;
+                                        for (h in holiday) {
+                                            if (tgl3 != holiday[h].date) {
+                                                count++;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        $.ajax({
+                            url: "/Account/Get/" + $("#nikHidden").val()
+                        }).done((hasilAccount) => {
+                            var upAccount = new Object();
+                            upAccount.NIK = hasilAccount.nik;
+                            upAccount.Password = hasilAccount.password;
+                            upAccount.LeaveStatus = hasilAccount.leaveStatus;
+                            upAccount.LeaveQuota = (hasilAccount.leaveQuota - count);
+                            console.log(upAccount);
                             $.ajax({
-                                url: "/Account/Get/" + $("#nikHidden").val()
-                            }).done((hasilAccount) => {
-                                var upAccount = new Object();
-                                upAccount.NIK = hasilAccount.nik;
-                                upAccount.Password = hasilAccount.password;
-                                upAccount.LeaveStatus = hasilAccount.leaveStatus;
-                                upAccount.LeaveQuota = (hasilAccount.leaveQuota - count);
-                                console.log(upAccount);
+                                url: "/Account/Put",
+                                type: "PUT",
+                                data: upAccount
+                            }).done((hasilUpdateAC) => {
+                                var object = new Object();
+                                object.StartDate = $("#tglawal").val()
+                                object.EndDate = $("#tglakhir").val()
+                                object.TotalDays = count
+                                object.Attachment = null
+                                object.Status = 2
+                                object.NIK = $("#nikHidden").val()
+                                object.LeaveId = parseInt($("#typeLeave").val())
                                 $.ajax({
-                                    url: "/Account/Put",
-                                    type: "PUT",
-                                    data: upAccount
-                                }).done((hasilUpdateAC) => {
-                                    var object = new Object();
-                                    object.StartDate = $("#tglawal").val()
-                                    object.EndDate = $("#tglakhir").val()
-                                    object.TotalDays = count
-                                    object.Attachment = result
-                                    object.Status = 2
-                                    object.NIK = $("#nikHidden").val()
-                                    object.LeaveId = parseInt($("#typeLeave").val())
-                                    $.ajax({
-                                        url: "/LeaveEmployee/Post",
-                                        type: "POST",
-                                        data: object
-                                    }).done((berhasil) => {
-                                        removeUpload();
-                                        $("#typeLeave").val("");
-                                        $(".tglawal").hide()
-                                        $(".tglawal").val("")
+                                    url: "/LeaveEmployee/Post",
+                                    type: "POST",
+                                    data: object
+                                }).done((berhasil) => {
+                                    removeUpload();
+                                    $("#typeLeave").val("");
+                                    $(".tglawal").hide()
+                                    $(".tglawal").val("")
 
-                                        $(".tglawalTemp").show()
-                                        //$(".tglakhir").hide()
-                                        $(".tglakhir").val("")
+                                    $(".tglawalTemp").show()
+                                    //$(".tglakhir").hide()
+                                    $(".tglakhir").val("")
 
-                                        $('#alertLeaveSuccess').fadeIn("slow");
-                                        setTimeout(function () {
-                                            $('#alertLeaveSuccess').fadeOut("slow");
-                                        }, 5000)
-                                    }).fail((gagal) => {
-                                        removeUpload();
-                                        $("#typeLeave").val("");
-                                        $(".tglawal").hide()
-                                        $(".tglawal").val("")
+                                    $('#alertLeaveSuccess').fadeIn("slow");
+                                    setTimeout(function () {
+                                        $('#alertLeaveSuccess').fadeOut("slow");
+                                    }, 5000)
+                                }).fail((gagal) => {
+                                    removeUpload();
+                                    $("#typeLeave").val("");
+                                    $(".tglawal").hide()
+                                    $(".tglawal").val("")
 
-                                        $(".tglakhir").hide()
-                                        $(".tglakhir").val("")
-                                        $(".tglawalTemp").show()
+                                    $(".tglakhir").hide()
+                                    $(".tglakhir").val("")
+                                    $(".tglawalTemp").show()
 
-                                        $("#alertLeave").html(" Sorry, your leave request cannot be accepted!")
-                                        $("#alertLeave").fadeIn("slow")
-                                        setTimeout(function () {
-                                            $('#alertLeave').fadeOut("slow");
-                                        }, 5000)
-                                    })
+                                    $("#alertLeave").html(" Sorry, your leave request cannot be accepted!")
+                                    $("#alertLeave").fadeIn("slow")
+                                    setTimeout(function () {
+                                        $('#alertLeave').fadeOut("slow");
+                                    }, 5000)
+                                })
 
-                                            })
-                                        })
+                            })
+                        })
 
-                                    }).fail((err) => {
-                                        console.log(err)
-                                    })
-                        
-                    }
-                }).fail((error) => {
-                    console.log("SALAH")
-                })
+                    }).fail((err) => {
+                        console.log(err)
+                    })
+                }
+
+               
             }
         }
     } else if ($("#typeLeaveTemp").val() == "Special Leave") {
-        let tempIdSpecial = ["typeLeave", "tglawal", "tglakhirTemp", "uploadFilee"]
+        //let tempIdSpecial = ["typeLeave", "tglawal", "tglakhirTemp", "uploadFilee"]
+        let tempIdSpecial = ["typeLeave", "tglawal", "tglakhirTemp"]
         countSpecial = 0;
         for (t in tempIdSpecial) {
-            if (tempIdSpecial[t] == "uploadFilee") {
-                if ($("#uploadFilee").val() == "") {
-                    $("#alertDoc").show()
-                    countSpecial++;
-                } else {
-                    $("#alertDoc").hide()
-                }
-            }
-            else if ($("#" + tempIdSpecial[t]).val() == "") {
+            //if (tempIdSpecial[t] == "uploadFilee") {
+            //    if ($("#uploadFilee").val() == "") {
+            //        $("#alertDoc").show()
+            //        countSpecial++;
+            //    } else {
+            //        $("#alertDoc").hide()
+            //    }
+            //}
+            //else
+           if ($("#" + tempIdSpecial[t]).val() == "") {
                 $("#" + tempIdSpecial[t]).addClass("is-invalid")
                 countSpecial++;
             } else {
@@ -841,74 +1619,122 @@ $("#submit").click(function () {
             //objSpecial.TotalDays = $("#quotaLeave").val();
             //objSpecial.Attachment = $("#quotaLeave").val();
 
+            if ($("#uploadFilee").val() != "") {
+                var fileUpload = $("#uploadFilee").get(0);
 
-            var fileUpload = $("#uploadFilee").get(0);
+                var files = document.getElementById("uploadFilee").files[0];
 
-            var files = document.getElementById("uploadFilee").files[0];
+                var data = new FormData();
 
-            var data = new FormData();
+                data.append("FileUpload", files);
 
-            data.append("FileUpload", files);
+                $.ajax({
+                    url: "/User/UploadFile",
+                    type: "POST",
+                    data: data,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                }).done((result) => {
+                    if (result != null) {
 
-            $.ajax({
-                url: "/User/UploadFile",
-                type: "POST",
-                data: data,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-            }).done((result) => {
-                if (result != null) {
+                        var object = new Object();
+                        object.StartDate = $("#tglawal").val()
+                        object.EndDate = $("#tglakhirTemp").val()
+                        object.TotalDays = parseInt($("#quotaLeave").val())
+                        object.Attachment = result
+                        object.Status = 2
+                        object.NIK = $("#nikHidden").val()
+                        object.LeaveId = parseInt($("#typeLeave").val())
+                        $.ajax({
+                            url: "/LeaveEmployee/Post",
+                            type: "POST",
+                            data: object
+                        }).done((hasil) => {
+                            removeUpload();
+                            $("#typeLeave").val("");
+                            $(".tglawal").hide()
+                            $(".tglawal").val("")
+                            $(".tglawalTemp").show()
 
-                    var object = new Object();
-                    object.StartDate = $("#tglawal").val()
-                    object.EndDate = $("#tglakhirTemp").val()
-                    object.TotalDays = parseInt($("#quotaLeave").val())
-                    object.Attachment = result
-                    object.Status = 2
-                    object.NIK = $("#nikHidden").val()
-                    object.LeaveId = parseInt($("#typeLeave").val())
-                    $.ajax({
-                        url: "/LeaveEmployee/Post",
-                        type: "POST",
-                        data: object
-                    }).done((hasil) => {
-                        removeUpload();
-                        $("#typeLeave").val("");
-                        $(".tglawal").hide()
-                        $(".tglawal").val("")
-                        $(".tglawalTemp").show()
+                            $(".tglakhir").hide()
+                            $(".tglakhirTemp").val("")
 
-                        $(".tglakhir").hide()
-                        $(".tglakhirTemp").val("")
+                            $('#alertLeaveSuccess').fadeIn("slow");
+                            setTimeout(function () {
+                                $('#alertLeaveSuccess').fadeOut("slow");
+                            }, 5000)
+                        }).fail((gagal) => {
+                            removeUpload();
+                            $("#typeLeave").val("");
+                            $(".tglawal").hide()
+                            $(".tglawal").val("")
+                            $(".tglawalTemp").show()
 
-                        $('#alertLeaveSuccess').fadeIn("slow");
-                        setTimeout(function () {
-                            $('#alertLeaveSuccess').fadeOut("slow");
-                        }, 5000)
-                    }).fail((gagal) => {
-                        removeUpload();
-                        $("#typeLeave").val("");
-                        $(".tglawal").hide()
-                        $(".tglawal").val("")
-                        $(".tglawalTemp").show()
+                            $(".tglakhir").hide()
+                            $(".tglakhirTemp").val("")
 
-                        $(".tglakhir").hide()
-                        $(".tglakhirTemp").val("")
+                            $("#alertLeave").html(" Sorry, your leave request cannot be accepted!")
+                            $("#alertLeave").fadeIn("slow")
+                            setTimeout(function () {
+                                $('#alertLeave').fadeOut("slow");
+                            }, 5000)
+                        })
 
-                        $("#alertLeave").html(" Sorry, your leave request cannot be accepted!")
-                        $("#alertLeave").fadeIn("slow")
-                        setTimeout(function () {
-                            $('#alertLeave').fadeOut("slow");
-                        }, 5000)
-                    })
 
-                    
-                    
-                }
-            }).fail((error) => {
-                console.log(error)
-            })
+
+                    }
+                }).fail((error) => {
+                    console.log(error)
+                })
+            } else {
+
+                var object = new Object();
+                object.StartDate = $("#tglawal").val()
+                object.EndDate = $("#tglakhirTemp").val()
+                object.TotalDays = parseInt($("#quotaLeave").val())
+                object.Attachment = null
+                object.Status = 2
+                object.NIK = $("#nikHidden").val()
+                object.LeaveId = parseInt($("#typeLeave").val())
+                $.ajax({
+                    url: "/LeaveEmployee/Post",
+                    type: "POST",
+                    data: object
+                }).done((hasil) => {
+                    removeUpload();
+                    $("#typeLeave").val("");
+                    $(".tglawal").hide()
+                    $(".tglawal").val("")
+                    $(".tglawalTemp").show()
+
+                    $(".tglakhir").hide()
+                    $(".tglakhirTemp").val("")
+
+                    $('#alertLeaveSuccess').fadeIn("slow");
+                    setTimeout(function () {
+                        $('#alertLeaveSuccess').fadeOut("slow");
+                    }, 5000)
+                }).fail((gagal) => {
+                    removeUpload();
+                    $("#typeLeave").val("");
+                    $(".tglawal").hide()
+                    $(".tglawal").val("")
+                    $(".tglawalTemp").show()
+
+                    $(".tglakhir").hide()
+                    $(".tglakhirTemp").val("")
+
+                    $("#alertLeave").html(" Sorry, your leave request cannot be accepted!")
+                    $("#alertLeave").fadeIn("slow")
+                    setTimeout(function () {
+                        $('#alertLeave').fadeOut("slow");
+                    }, 5000)
+                })
+
+            }
+
+
         }
     } else {
         $("#typeLeave").addClass("is-invalid")
@@ -1101,7 +1927,7 @@ $(function () {
             ],
             minDate: "today",
             onChange: function (selectedDates, dateStr, instance) {
-                let range = parseInt($("#quotaLeave").val());
+                let range = parseInt($("#quotaLeave").val())-1;
                 if ($("#typeLeaveTemp").val() == "Normal Leave") {
                     $(".tglakhir").show()
                     $(".tglakhirTemp").hide()
@@ -1115,7 +1941,7 @@ $(function () {
                             }
                         ],
                         minDate: new Date(dateStr).fp_incr(1),
-                        maxDate: new Date(dateStr).fp_incr(range+1)
+                        maxDate: new Date(dateStr).fp_incr(range)
                     });
                 } else {
                     let ranges = parseInt($("#quotaLeave").val());

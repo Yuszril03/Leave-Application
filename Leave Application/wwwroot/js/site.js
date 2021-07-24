@@ -74,7 +74,7 @@ function Login() {
                     } else if (response == "Employee" || response == "Manager") {
                         window.location = "/User";
                     } else {
-                        window.location = "/Home/Index";
+                        window.location = "/";
                     }
                 }
                 else {

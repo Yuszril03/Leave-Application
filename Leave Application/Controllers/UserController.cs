@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Leave_Application.Controllers
 {
-    [Authorize(Roles = "Employee, Manager")]
+    [Authorize(Roles = "Employee, Manager, Admin")]
     public class UserController : Controller
     {
         private readonly EmployeeRepository employeeRepository;
