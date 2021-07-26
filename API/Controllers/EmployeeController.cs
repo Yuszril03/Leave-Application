@@ -5,7 +5,6 @@ using API.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Net;
 
 namespace API.Controllers
 {
@@ -210,6 +209,29 @@ namespace API.Controllers
         public ActionResult OnLeave()
         {
             var get = employeeRepository.OnLeave();
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        
+        [HttpGet("LeaveDataYearly/{year}")]
+        public ActionResult LeaveDataYearly(int year)
+        {
+            var get = employeeRepository.LeaveData(year);
+            if (get != null)
+            {
+                return Ok(get);
+            }
+            return BadRequest(get);
+        }
+
+        [HttpGet("DepartmentData")]
+        public ActionResult DepartmentData()
+        {
+            var get = employeeRepository.DepartmentData();
             if (get != null)
             {
                 return Ok(get);

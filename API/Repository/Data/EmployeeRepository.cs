@@ -187,6 +187,32 @@ namespace API.Repository.Data
                     );
             return q.ToList();
         }
+        
+        public IEnumerable LeaveData(int year)
+        {
+            var data = (from le in myContext.LeaveEmployees 
+                       where le.StartDate.Year == year && le.Status == Status.Approved
+                       group le by le.StartDate.Month into date
+                       select new
+                       {
+                           Month = date.Key,
+                           Count = date.Count()
+                       }).ToList();
+            return data;
+        }
+
+        public IEnumerable DepartmentData()
+        {
+            var data = (from emp in myContext.Employees
+                        join dep in myContext.Departments on emp.DepartmentId equals dep.DepartmentId
+                        group emp by dep.DepartmentName into depart
+                        select new
+                        {
+                            DepartmentName = depart.Key,
+                            Count = depart.Count()
+                        }).ToList();
+            return data;
+        }
 
         public IEnumerable GetEmployees()
         {

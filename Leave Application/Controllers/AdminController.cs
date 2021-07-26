@@ -4,9 +4,6 @@ using Leave_Application.Repository.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Leave_Application.Controllers
@@ -198,6 +195,20 @@ namespace Leave_Application.Controllers
         public async Task<JsonResult> GetLeaveEmployees(int id)
         {
             var result = await leaveEmployeeRepository.GetLeaveEmployees(id);
+            return Json(result);
+        }
+
+        [HttpGet("Admin/GetLeaveDataYearly/{year}")]
+        public async Task<JsonResult> GetLeaveDataYearly(int year)
+        {
+            var result = await employeeRepository.LeaveDataYearly(year);
+            return Json(result);
+        }
+
+        [HttpGet("Admin/GetDepartmentData")]
+        public async Task<JsonResult> GetDepartmentData()
+        {
+            var result = await employeeRepository.DepartmentData();
             return Json(result);
         }
 

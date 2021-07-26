@@ -74,7 +74,11 @@ function Login() {
                     } else if (response == "Employee" || response == "Manager") {
                         window.location = "/User";
                     } else {
-                        window.location = "/";
+                        Swal.fire({
+                            title: 'NIK/Email or Password Wrong',
+                            text: 'Please try again.',
+                            icon: 'warning',
+                        })
                     }
                 }
                 else {

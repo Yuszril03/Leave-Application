@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -230,6 +229,30 @@ namespace Leave_Application.Repository.Data
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<List<Employee>>(apiResponse);
+            }
+            return entities;
+        }
+        
+        public async Task<List<LeaveData>> LeaveDataYearly(int year)
+        {
+            List<LeaveData> entities = new List<LeaveData>();
+
+            using (var response = await httpClient.GetAsync(request + "LeaveDataYearly/" + year))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<LeaveData>>(apiResponse);
+            }
+            return entities;
+        }
+
+        public async Task<List<DepartmentData>> DepartmentData()
+        {
+            List<DepartmentData> entities = new List<DepartmentData>();
+
+            using (var response = await httpClient.GetAsync(request + "DepartmentData/"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<DepartmentData>>(apiResponse);
             }
             return entities;
         }

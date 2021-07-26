@@ -3,7 +3,6 @@ using API.Models;
 using API.Utils;
 using API.ViewModel;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace API.Repository.Data

@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace API.ViewModel
+﻿namespace API.ViewModel
 {
     public class RegisterVM
     {
