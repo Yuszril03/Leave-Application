@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="ms-3 name">
                                     <h5 class="font-bold">Status</h5>
-                                    <h6 class="text-muted mb-0">Masuk</h6>
+                                    <div id="statusHomeSM">Loading...</div>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            @{ if (@Context.Session.GetString("Role") == "Manager") {
+            @{ if (@Context.Session.GetString("Role") == "Manager" || @Context.Session.GetString("RoleSecond") == "Manager") {
                         <section class="section">
                             <div class="card">
                                 <div class="card-header">
@@ -96,7 +96,7 @@
                 </div>
             </div>
             @{
-                if (@Context.Session.GetString("Role") == "Manager")
+                if (@Context.Session.GetString("Role") == "Manager" || @Context.Session.GetString("RoleSecond") == "Manager")
                 {
                     <section class="section">
                         <div class="card">

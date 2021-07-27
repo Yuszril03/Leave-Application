@@ -15,9 +15,9 @@ $.ajax({
 $.ajax({
     url: '/Admin/GetManagers'
 }).done((result) => {
-    let text = '<option selected disabled value="">-Choose Managers-</option>';
+    let text = '<option selected  value="">-Choose Managers-</option>';
     $.each(result, function (key, val) {
-        text += `<option value="${val.nik}" data-subtext="${val.nik}">${val.firstName} ${val.lastName}</option>`;
+        text += `<option value="${val.nik}">${val.firstName} ${val.lastName}</option>`;
     });
     $('#manager').html(text);
     $('#manager').selectpicker('refresh');

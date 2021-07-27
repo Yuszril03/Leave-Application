@@ -95,7 +95,6 @@ namespace Leave_Application.Controllers
                     trueRole = "Employee";
                     //HttpContext.Session.SetString("Role", trueRole);
                 }
-
             }
             else
             {

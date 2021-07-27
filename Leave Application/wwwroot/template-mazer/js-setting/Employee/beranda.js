@@ -347,6 +347,7 @@
                 console.log(hasil)
                 if (hasil.leaveStatus == 1) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
+                    $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Work</h6>');
                 } else {
                     obj = new Object();
                     obj.NIK = hasil.nik;
@@ -359,6 +360,7 @@
                         data: obj
                     }).done((hasilUpdate) => {
                         $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
+                        $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Work</h6>');
                     })
                 }
             })
@@ -370,6 +372,7 @@
                 console.log(hasil)
                 if (hasil.leaveStatus == 1) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
+                    $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Work</h6>');
                 } else {
                     obj = new Object();
                     obj.NIK = hasil.nik;
@@ -382,6 +385,7 @@
                         data: obj
                     }).done((hasilUpdate) => {
                         $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
+                        $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Work</h6>');
                     })
                 }
             })
@@ -392,6 +396,7 @@
                 console.log(hasil)
                 if (hasil.leaveStatus == 0) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Leave</h6>');
+                    $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Leave</h6>');
                 } else {
                     obj = new Object();
                     obj.NIK = hasil.nik;
@@ -404,6 +409,7 @@
                         data: obj
                     }).done((hasilUpdate) => {
                         $("#statusHome").html('<h6 class="text-success mb-0 ">Leave</h6>');
+                        $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Leave</h6>');
                     })
                 }
             })
@@ -414,6 +420,7 @@
                 console.log(hasil)
                 if (hasil.leaveStatus == 1) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
+                    $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Work</h6>');
                 } else {
                     obj = new Object();
                     obj.NIK = hasil.nik;
@@ -426,6 +433,7 @@
                         data: obj
                     }).done((hasilUpdate) => {
                         $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
+                        $("#statusHomeSM").html('<h6 class="text-success mb-0 ">Work</h6>');
                     })
                 }
             })
