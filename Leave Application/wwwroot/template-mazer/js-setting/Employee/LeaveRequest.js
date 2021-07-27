@@ -23,10 +23,12 @@ $("#submit").click(function () {
             } else {
                 $("#" + tempIdNormal[n]).removeClass("is-invalid")
             }
+        }
 
             if (countNOrmaly == 0) {
 
                 if ($("#uploadFilee").val() != "") {
+                    var hddd = 0;
                     var fileUpload = $("#uploadFilee").get(0);
 
                     var files = document.getElementById("uploadFilee").files[0];
@@ -52,12 +54,13 @@ $("#submit").click(function () {
                                 var selisih = Math.abs(tgl - tgl2) / 86400000;
                                 var d = tgl.getDate();
                                 var m = tgl.getMonth() + 1;
+                                console.log(m)
                                 var y = tgl.getFullYear();
                                 var count = 0;
                                 var hariLibur = 0;
                                 var z = 1;
                                 for (var i = 0; i <= selisih; i++) {
-
+                                    console.log(i + " PER " + selisih)
                                     if (m == 1) {
                                         var feb = hasil2.data.monthly.januari;
                                         if (d <= feb.daysCount) {
@@ -79,11 +82,15 @@ $("#submit").click(function () {
                                             var date3 = new Date(tgl3);
                                             if (date3.getDay() != 6 && date3.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.januari.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
 
@@ -108,15 +115,20 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.februari.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
                                                 }
+                                                if (countHariLibur == 0) {
+                                                    count++;
+                                                }
                                             }
                                         }
-                                    } else if (m == 2) {
+                                    }
+                                    else if (m == 2) {
                                         var feb = hasil2.data.monthly.februari;
                                         if (d <= feb.daysCount) {
                                             var tgl3 = "";
@@ -137,11 +149,15 @@ $("#submit").click(function () {
                                             var date3 = new Date(tgl3);
                                             if (date3.getDay() != 6 && date3.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.februari.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
 
@@ -166,11 +182,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.maret.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -196,11 +216,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.maret.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -223,11 +247,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.april.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -254,11 +282,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.april.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -281,11 +313,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.mei.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -311,11 +347,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.mei.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -338,11 +378,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.juni.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -368,11 +412,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.juni.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -395,11 +443,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.juli.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -425,11 +477,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.juli.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -452,18 +508,22 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
                                     }
                                     else if (m == 8) {
-                                        var mart = hasil2.data.monthly.agustus;
-                                        if (d <= mart.daysCount) {
+                                        var agustus = hasil2.data.monthly.agustus;
+                                        if (d <= agustus.daysCount) {
                                             //var tgl4 = y + "-" + m + "-" + (d++);
                                             var tgl3 = "";
                                             if (m < 10) {
@@ -482,11 +542,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -509,11 +573,14 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.september.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
-
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -539,11 +606,14 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.september.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
-
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -566,11 +636,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -596,11 +670,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -623,11 +701,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -653,11 +735,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.november.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         } else {
@@ -680,11 +766,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.desember.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -710,11 +800,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.desember.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
-                                                    if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                    if (tgl3 == holiday[h].date) {
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++
                                                 }
                                             }
                                         } else {
@@ -738,11 +832,15 @@ $("#submit").click(function () {
                                             var date4 = new Date(tgl3);
                                             if (date4.getDay() != 6 && date4.getDay() != 0) {
                                                 var holiday = hasil2.data.monthly.januari.holiday.data;
+                                                var countHariLibur = 0;
                                                 for (h in holiday) {
                                                     if (tgl3 != holiday[h].date) {
-                                                        count++;
+                                                        countHariLibur++;
                                                     }
 
+                                                }
+                                                if (countHariLibur == 0) {
+                                                    count++;
                                                 }
                                             }
                                         }
@@ -821,17 +919,19 @@ $("#submit").click(function () {
                     $.ajax({
                         url: "/User/GetCalendar"
                     }).done((hasil2) => {
+                        console.log(hasil2)
                         var tgl = new Date($("#tglawal").val());
                         var tgl2 = new Date($("#tglakhir").val());
                         var selisih = Math.abs(tgl - tgl2) / 86400000;
                         var d = tgl.getDate();
                         var m = tgl.getMonth() + 1;
+                       
                         var y = tgl.getFullYear();
                         var count = 0;
                         var hariLibur = 0;
                         var z = 1;
                         for (var i = 0; i <= selisih; i++) {
-
+                            console.log(i + " PER " + selisih)
                             if (m == 1) {
                                 var feb = hasil2.data.monthly.januari;
                                 if (d <= feb.daysCount) {
@@ -853,11 +953,15 @@ $("#submit").click(function () {
                                     var date3 = new Date(tgl3);
                                     if (date3.getDay() != 6 && date3.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.januari.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
 
@@ -882,15 +986,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.februari.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
                                         }
+                                        if (countHariLibur == 0) {
+                                            count++;
+                                        }
                                     }
                                 }
-                            } else if (m == 2) {
+                            }
+                            else  if (m == 2) {
                                 var feb = hasil2.data.monthly.februari;
                                 if (d <= feb.daysCount) {
                                     var tgl3 = "";
@@ -911,11 +1020,15 @@ $("#submit").click(function () {
                                     var date3 = new Date(tgl3);
                                     if (date3.getDay() != 6 && date3.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.februari.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
 
@@ -940,16 +1053,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.maret.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 3) {
+                            else  if (m == 3) {
                                 var mart = hasil2.data.monthly.maret;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -970,11 +1087,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.maret.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -997,17 +1118,21 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.april.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
 
                             }
-                            else if (m == 4) {
+                             else if (m == 4) {
                                 var mart = hasil2.data.monthly.april;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1028,11 +1153,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.april.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1055,16 +1184,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.mei.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 5) {
+                             else if (m == 5) {
                                 var mart = hasil2.data.monthly.mei;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1085,11 +1218,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.mei.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1112,16 +1249,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.juni.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 6) {
+                             else if (m == 6) {
                                 var mart = hasil2.data.monthly.juni;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1142,11 +1283,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.juni.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1169,16 +1314,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.juli.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 7) {
+                             else  if (m == 7) {
                                 var mart = hasil2.data.monthly.juli;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1199,11 +1348,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.juli.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1226,18 +1379,22 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 8) {
-                                var mart = hasil2.data.monthly.agustus;
-                                if (d <= mart.daysCount) {
+                             else  if (m == 8) {
+                                var agustus = hasil2.data.monthly.agustus;
+                                if (d <= agustus.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
                                     var tgl3 = "";
                                     if (m < 10) {
@@ -1256,11 +1413,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.agustus.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1283,16 +1444,19 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.september.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
-
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 9) {
+                           else if (m == 9) {
                                 var mart = hasil2.data.monthly.september;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1313,11 +1477,14 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.september.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
-
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1340,16 +1507,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 10) {
+                            else  if (m == 10) {
                                 var mart = hasil2.data.monthly.oktober;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1370,11 +1541,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1397,16 +1572,20 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.oktober.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
-                            else if (m == 11) {
+                            else  if (m == 11) {
                                 var mart = hasil2.data.monthly.november;
                                 if (d <= mart.daysCount) {
                                     //var tgl4 = y + "-" + m + "-" + (d++);
@@ -1427,11 +1606,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.november.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 } else {
@@ -1454,11 +1637,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.desember.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
@@ -1484,11 +1671,15 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.desember.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
-                                            if (tgl3 != holiday[h].date) {
-                                                count++;
+                                            if (tgl3 == holiday[h].date) {
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++
                                         }
                                     }
                                 } else {
@@ -1512,17 +1703,21 @@ $("#submit").click(function () {
                                     var date4 = new Date(tgl3);
                                     if (date4.getDay() != 6 && date4.getDay() != 0) {
                                         var holiday = hasil2.data.monthly.januari.holiday.data;
+                                        var countHariLibur = 0;
                                         for (h in holiday) {
                                             if (tgl3 != holiday[h].date) {
-                                                count++;
+                                                countHariLibur++;
                                             }
 
+                                        }
+                                        if (countHariLibur == 0) {
+                                            count++;
                                         }
                                     }
                                 }
                             }
                         }
-
+                        console.log(count)
                         $.ajax({
                             url: "/Account/Get/" + $("#nikHidden").val()
                         }).done((hasilAccount) => {
@@ -1531,7 +1726,7 @@ $("#submit").click(function () {
                             upAccount.Password = hasilAccount.password;
                             upAccount.LeaveStatus = hasilAccount.leaveStatus;
                             upAccount.LeaveQuota = (hasilAccount.leaveQuota - count);
-                            console.log(upAccount);
+                            
                             $.ajax({
                                 url: "/Account/Put",
                                 type: "PUT",
@@ -1590,7 +1785,7 @@ $("#submit").click(function () {
 
                
             }
-        }
+        
     } else if ($("#typeLeaveTemp").val() == "Special Leave") {
         //let tempIdSpecial = ["typeLeave", "tglawal", "tglakhirTemp", "uploadFilee"]
         let tempIdSpecial = ["typeLeave", "tglawal", "tglakhirTemp"]

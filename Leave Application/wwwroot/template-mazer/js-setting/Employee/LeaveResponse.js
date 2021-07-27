@@ -198,7 +198,7 @@
                                 updateEmploy.NIK = resultGetAc.nik;
                                 updateEmploy.Password = resultGetAc.password;
                                 updateEmploy.LeaveQuota = resultGetAc.leaveQuota;
-                                updateEmploy.LeaveStatus = 0;
+                                updateEmploy.LeaveStatus = 1;
                                 $.ajax({
                                     url: "/Account/Put",
                                     type: "PUT",
@@ -313,7 +313,7 @@
                                 updateEmploy.NIK = resultGetAc.nik;
                                 updateEmploy.Password = resultGetAc.password;
                                 updateEmploy.LeaveQuota = resultGetAc.leaveQuota;
-                                updateEmploy.LeaveStatus = 0;
+                                updateEmploy.LeaveStatus = 1;
                                 $.ajax({
                                     url: "/Account/Put",
                                     type: "PUT",
