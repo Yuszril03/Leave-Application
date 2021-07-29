@@ -2125,25 +2125,17 @@ $(function () {
                 let range = parseInt($("#quotaLeave").val()) - 1;
                 if ($("#typeLeaveTemp").val() == "Normal Leave") {
                     var countDate = 0;
-                    for (let i = 1; i <= range; i++) {
-                        if (i == range) {
-                            var dateNow = new Date(dateStr).fp_incr(i);
-                            if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
-                                let dateSub = new Date(dateStr).fp_incr(i + 1);
-                                if (dateSub.getDay() == 6 || dateSub.getDay() == 0) {
-                                    countDate++;
-                                }
-                                if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
-                                    countDate++;
-                                }
-                            }
-                        } else {
-                            var dateNow = new Date(dateStr).fp_incr(i);
-                            if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
-                                countDate++;
-                            }
+                    var initial = 0;
+                    var lopp = range;
+                    do {
+                        var dateNow = new Date(dateStr).fp_incr(initial);
+                        if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
+                            countDate++;
+                            lopp++;
                         }
-                    }
+                        initial++;
+                    } while (initial < lopp);
+                   
                     $(".tglakhir").show()
                     $(".tglakhirTemp").hide()
                     $(".tglakhir").val("")
@@ -2160,10 +2152,21 @@ $(function () {
                     });
                 } else {
                     let ranges = parseInt($("#quotaLeave").val());
+                    var countDate = 0;
+                    var initial = 0;
+                    var lopp = range;
+                    do {
+                        var dateNow = new Date(dateStr).fp_incr(initial);
+                        if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
+                            countDate++;
+                            lopp++;
+                        }
+                        initial++;
+                    } while (initial < lopp);
                     $(".tglakhir").hide()
                     $(".tglakhirTemp").show()
-                    var tgl = new Date(dateStr).fp_incr(ranges);
-                    console.log(ranges)
+                    var tgl = new Date(dateStr).fp_incr(ranges + countDate);
+                    console.log(countDate)
                     $("#tglakhirTemp").val(tgl.toISOString().substring(0, 10))
                 }
                
