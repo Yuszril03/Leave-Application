@@ -2122,8 +2122,28 @@ $(function () {
             ],
             minDate: "today",
             onChange: function (selectedDates, dateStr, instance) {
-                let range = parseInt($("#quotaLeave").val())-1;
+                let range = parseInt($("#quotaLeave").val()) - 1;
                 if ($("#typeLeaveTemp").val() == "Normal Leave") {
+                    var countDate = 0;
+                    for (let i = 1; i <= range; i++) {
+                        if (i == range) {
+                            var dateNow = new Date(dateStr).fp_incr(i);
+                            if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
+                                let dateSub = new Date(dateStr).fp_incr(i + 1);
+                                if (dateSub.getDay() == 6 || dateSub.getDay() == 0) {
+                                    countDate++;
+                                }
+                                if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
+                                    countDate++;
+                                }
+                            }
+                        } else {
+                            var dateNow = new Date(dateStr).fp_incr(i);
+                            if (dateNow.getDay() == 6 || dateNow.getDay() == 0) {
+                                countDate++;
+                            }
+                        }
+                    }
                     $(".tglakhir").show()
                     $(".tglakhirTemp").hide()
                     $(".tglakhir").val("")
@@ -2136,7 +2156,7 @@ $(function () {
                             }
                         ],
                         minDate: new Date(dateStr).fp_incr(1),
-                        maxDate: new Date(dateStr).fp_incr(range)
+                        maxDate: new Date(dateStr).fp_incr(range + countDate)
                     });
                 } else {
                     let ranges = parseInt($("#quotaLeave").val());
