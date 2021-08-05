@@ -340,11 +340,16 @@
                 }
             }
         }
+        $.ajax({
+            url: "Account/Get/" + $("#nikHidden").val()
+        }).done((hasilUser) => {
+            $("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasilUser.leaveQuota}</h6>`);
+        })
         if (dateStart == 0) {
             $.ajax({
                 url: "Account/Get/" + $("#nikHidden").val()
             }).done((hasil) => {
-                $("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
+                //$("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
                 console.log(hasil)
                 if (hasil.leaveStatus == 1) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
@@ -370,7 +375,7 @@
                $.ajax({
                 url: "Account/Get/" + $("#nikHidden").val()
                }).done((hasil) => {
-                   $("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
+                   //$("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
                 console.log(hasil)
                 if (hasil.leaveStatus == 1) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
@@ -395,7 +400,7 @@
             $.ajax({
                 url: "Account/Get/" + $("#nikHidden").val()
             }).done((hasil) => {
-                $("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
+                //$("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
                 console.log(hasil)
                 if (hasil.leaveStatus == 0) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Leave</h6>');
@@ -420,7 +425,7 @@
             $.ajax({
                 url: "Account/Get/" + $("#nikHidden").val()
             }).done((hasil) => {
-                $("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
+                //$("#quotaLevaee").html(`<h6 class="text-primary mb-0 ">${hasil.leaveQuota}</h6>`);
                 console.log(hasil)
                 if (hasil.leaveStatus == 1) {
                     $("#statusHome").html('<h6 class="text-success mb-0 ">Work</h6>');
