@@ -1944,10 +1944,29 @@ function loadLeave() {
         url: "/Leave/GetAll"
     }).done((result) => {
         let temp = '<option value="">Choose leave...</option>';
-        $.each(result, function (key, val) {
-            temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+        $.ajax({
+            url: "/Employee/Get/" + $('#nikHidden').val()
+        }).done((hasil) => {
+            $.each(result, function (key, val) {
+
+                if (val.leaveName == "Maternity Leave") {
+                    console.log("a")
+                    if (hasil.gender == 1) {
+                        temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                    }
+                } else if (val.leaveName == "Hajj Leave") {
+                    if (hasil.religion == 0) {
+                        temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                    }
+                } else {
+                    temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                }
+            })
+            $("#typeLeave").html(temp);
         })
-        $("#typeLeave").html(temp);
+       
+       
+        
     })
 }
 checkLeave()
@@ -2120,6 +2139,106 @@ $(function () {
 
                 }
             ],
+            onDayCreate: function (dObj, dStr, fp, dayElem) {
+                // Utilize dayElem.dateObj, which is the corresponding Date
+                $.ajax({
+                    url: "/User/GetCalendar"
+                }).done((result) => {
+                    let dateNow = new Date();
+                    let dateCalendar = new Date(dayElem.dateObj);
+                    let month = 12;
+
+                    for (var i = dateNow.getMonth(); i < month; i++) {
+                        if (i == 0) {
+                            $.each(result.data.monthly.januari.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 1) {
+                            $.each(result.data.monthly.februari.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 2) {
+                            $.each(result.data.monthly.maret.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 3) {
+                            $.each(result.data.monthly.april.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 4) {
+                            $.each(result.data.monthly.mei.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 5) {
+                            $.each(result.data.monthly.juni.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 6) {
+                            $.each(result.data.monthly.juli.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        }
+                        else if (i == 7) {
+                            $.each(result.data.monthly.agustus.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        }
+                        else if (i == 8) {
+                            $.each(result.data.monthly.september.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 9) {
+                            $.each(result.data.monthly.oktober.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 10) {
+                            $.each(result.data.monthly.november.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        } else if (i == 11) {
+                            $.each(result.data.monthly.desember.holiday.data, function (key, val) {
+                                let dateHoliday = new Date(val.date)
+                                if (dateCalendar.toLocaleDateString() == dateHoliday.toLocaleDateString()) {
+                                    dayElem.innerHTML += `<span class="event busy"></span>`;
+                                }
+                            })
+                        }
+                    }
+                })
+            },
             minDate: "today",
             onChange: function (selectedDates, dateStr, instance) {
                 let range = parseInt($("#quotaLeave").val()) - 1;
