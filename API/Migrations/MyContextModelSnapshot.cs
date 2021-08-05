@@ -94,6 +94,9 @@ namespace API.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Religion")
+                        .HasColumnType("int");
+
                     b.HasKey("NIK");
 
                     b.HasIndex("DepartmentId");

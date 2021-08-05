@@ -26,62 +26,28 @@
 </div>
 <div class="page-content">
     <section class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4> <span class="text-primary"><i class="bi bi-card-list"></i></span> My Submission Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-lg p-2">
+                        <table id="tableBeranda" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Type of Leave</th>
+                                    <th>Leave Period</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card statusSM">
-                        <div class="card-body py-4 px-5">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar avatar-xl">
-                                    <img src="/template-mazer/assets/images/logo/portfolio.svg" alt="Face 1">
-                                </div>
-                                <div class="ms-3 name">
-                                    <h5 class="font-bold">Status</h5>
-                                    <div id="statusHomeSM">Loading...</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4> <span class="text-primary"><i class="bi bi-card-list"></i></span> My Submission Information</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive-lg p-2">
-                                <table id="tableBeranda" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Type of Leave</th>
-                                            <th>Leave Period</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-
-                                </table>
-                            </div>
-                        </div>
+                        </table>
                     </div>
                 </div>
             </div>
-            @{ if (@Context.Session.GetString("Role") == "Manager" || @Context.Session.GetString("RoleSecond") == "Manager") {
-                        <section class="section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4><span class="text-info"><i class="bi bi-bar-chart-fill"></i></span> Leave Statistics For 2021</h4>
-                                </div>
-                                <div class="card-content pb-4">
-                                    <div id="leavesss" class="leavesss"></div>
-                                </div>
-                            </div>
-                        </section>
-
-                }
-
-               }
-            
         </div>
-        <div class="col-12 col-lg-4">
+        <div class="col-md-4 col-sm-12">
             <div class="card statusLG">
                 <div class="card-body py-4 px-5">
                     <div class="d-flex align-items-center">
@@ -95,26 +61,37 @@
                     </div>
                 </div>
             </div>
-            @{
-                if (@Context.Session.GetString("Role") == "Manager" || @Context.Session.GetString("RoleSecond") == "Manager")
-                {
-                    <section class="section">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4><span class="text-danger"><i class="bi bi-pie-chart"></i></span> Employee Statistics</h4>
-                            </div>
-                            <div class="card-content pb-4">
-                                <div id="chart"></div>
-                            </div>
-                        </div>
-                    </section>
-
-                }
-
-            }
         </div>
     </section>
-    
+
+    @{
+        if (@Context.Session.GetString("Role") == "Manager" || @Context.Session.GetString("RoleSecond") == "Manager")
+        {
+        <section class="row">
+            <div class="col-md-8 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><span class="text-info"><i class="bi bi-bar-chart-fill"></i></span> Leave Statistics For 2021</h4>
+                    </div>
+                    <div class="card-content pb-4">
+                        <div id="leavesss" class="leavesss"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><span class="text-danger"><i class="bi bi-pie-chart"></i></span> Employee Statistics</h4>
+                    </div>
+                    <div class="card-content pb-4">
+                        <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        }
+    }
+
 </div>
 @section Scripts{
     <script src="~/template-mazer/js-setting/Employee/beranda.js"></script>

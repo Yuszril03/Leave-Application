@@ -135,6 +135,7 @@ namespace API.Repository.Data
                     employee.Gender = registerVM.Gender;
                     employee.Email = registerVM.Email;
                     employee.PhoneNumber = registerVM.PhoneNumber;
+                    employee.Religion = registerVM.Religion;
                     employee.ManagerId = registerVM.ManagerId;
                     employee.DepartmentId = registerVM.DepartmentId;
                     myContext.Employees.Add(employee);

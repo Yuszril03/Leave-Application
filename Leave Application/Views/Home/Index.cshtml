@@ -2,7 +2,7 @@
     ViewData["Title"] = "Leave Application";
 }
 
-<header class="masthead text-white">
+@*<header class="masthead text-white">
     <div class="masthead-content">
         <div class="container px-5">
             <h1 class="masthead-heading mb-0" id="mainTitle"></h1>
@@ -84,6 +84,76 @@
                             <<<<<<< HEAD Your password must be 8-20 characters long, contain letters and numbers, and
                                 must not contain spaces, special characters, or emoji.=======Please fill the field!>
                                 >>>>>> Taufan
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-primary" type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form class="login100-form validate-form" id="formLogin">
+                <span class="login100-form-title p-b-43" id="mainTitle"></span>
+
+                <div class="wrap-input100 validate-input" data-validate="NIK/Email is required">
+                    <input class="input100" type="text" id="validate">
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">NIK/Email</span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input class="input100" type="password" id="password">
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Password</span>
+                </div>
+
+                <div class="flex-sb-m w-full p-t-3 p-b-32">
+                    <div class="contact100-form-checkbox">
+                        
+                    </div>
+
+                    <div>
+                        <a href="#" data-toggle="modal" data-target="#forgotModal" class="txt1">
+                            Forgot Password?
+                        </a>
+                    </div>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <div class="login100-more" style="background-image: url('../TemplateLogin/images/bg-masthead.jpg');">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="forgotModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Forgot Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="validate-form" id="formForgot">
+                    <div class="form-group">
+                        <div class="wrap-input100 validate-input" data-validate="Email is required">
+                            <input class="input100" type="email" id="email" name="email">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Email</span>
                         </div>
                     </div>
                     <div class="text-center mt-4">

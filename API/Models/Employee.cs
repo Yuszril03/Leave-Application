@@ -16,6 +16,7 @@ namespace API.Models
         public string Email { get; set; }
         public Gender Gender { get; set; }
         public string PhoneNumber { get; set; }
+        public Religion Religion { get; set; }
         public string? ManagerId { get; set; }
         public int DepartmentId { get; set; }
         [JsonIgnore]
@@ -33,4 +34,9 @@ namespace API.Models
 public enum Gender
 {
     Male, Female
+}
+
+public enum Religion
+{
+    Moslem, Christian, Catholic, Buddha, Hindu, Confucianism
 }
