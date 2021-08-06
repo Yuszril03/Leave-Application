@@ -1950,15 +1950,32 @@ function loadLeave() {
             $.each(result, function (key, val) {
 
                 if (val.leaveName == "Maternity Leave") {
-                    console.log("a")
                     if (hasil.gender == 1) {
                         temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
                     }
-                } else if (val.leaveName == "Hajj Leave") {
+                } else if (val.leaveName == "Hajj Leave" || val.leaveName == "Islamic Fest") {
                     if (hasil.religion == 0) {
                         temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
                     }
-                } else {
+                } else if (val.leaveName == "Baptism") {
+                    if (hasil.religion == 1 || hasil.religion == 2) {
+                        temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                    }
+                } else if (val.leaveName == "Puja Devotion") {
+                    if (hasil.religion == 3) {
+                        temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                    }
+                } else if (val.leaveName == "Seclusion Day") {
+                    if (hasil.religion == 4) {
+                        temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                    }
+                }
+                else if (val.leaveName == "Chinese New Year") {
+                    if (hasil.religion == 5) {
+                        temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
+                    }
+                }
+                else {
                     temp += `<option value="${val.leaveId}">${val.leaveName}</option>`
                 }
             })
